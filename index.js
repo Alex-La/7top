@@ -2,6 +2,7 @@ const express = require("express");
 const config = require("config");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const fileUpload = require("express-fileupload");
 const methodOverride = require("method-override");
 const Mongoose = require("mongoose");
 const nodemailer = require("nodemailer");
