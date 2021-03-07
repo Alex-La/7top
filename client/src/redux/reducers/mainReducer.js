@@ -22,7 +22,10 @@ export const usersReducer = (
 ) => {
   switch (action.type) {
     case "USERS":
-      return action.payload;
+      return {
+        ...action.payload,
+        allUsers: [...state.allUsers, ...action.payload.allUsers],
+      };
     default:
       return state;
   }
