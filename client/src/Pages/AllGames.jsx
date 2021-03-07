@@ -19,6 +19,17 @@ import AllGamesTimer from "../Components/AllGames/AllGamesTimer";
 import Account from "../Components/Account";
 
 const AllGames = () => {
+  useEffect(() => {
+    document.title =
+      "Международная лотерея 7TOP.org на основе смартконтракта блокчейн сети TRON (TRX). Еженедельные тиражи";
+    document
+      .querySelector('meta[name="description"]')
+      .setAttribute(
+        "content",
+        "С помощью децентрализованной блокчейн сети Tron Вы сможете поучаствовать в четной лотерее, четность определения победителя которой, можно легко проверить. Вы можете пообщаться с другими игроками в телеграмм."
+      );
+  }, []);
+
   const { main, mainPanding } = useSelector(({ main, mainPanding }) => ({
     main,
     mainPanding,
