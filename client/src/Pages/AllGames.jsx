@@ -25,10 +25,6 @@ const AllGames = () => {
   const dispath = useDispatch();
 
   useEffect(() => {
-    console.log(main);
-  }, [main]);
-
-  useEffect(() => {
     dispath(getAllgames());
   }, [dispath]);
 
