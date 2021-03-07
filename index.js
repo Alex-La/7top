@@ -27,6 +27,7 @@ app.use(cors());
 app.use(methodOverride("_method"));
 app.set("view engine", "ejs");
 app.set("transporter", transporter);
+app.use("/api/tron", require("./routes/tron"));
 
 if (process.env.NODE_ENV === "production") {
   app.use("/", express.static(path.join(__dirname, "client", "build")));
