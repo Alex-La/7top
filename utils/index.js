@@ -1,3 +1,7 @@
+const glob = require("glob");
+const config = require("config");
+const path = require("path");
+
 module.exports.paginateResults = ({
   after: cursor,
   pageSize = 20,
@@ -24,4 +28,23 @@ module.exports.paginateResults = ({
           Math.min(results.length, cursorIndex + 1 + pageSize)
         )
     : results.slice(0, pageSize);
+};
+
+module.exports.addAvatarPaths = ({ results }) => {
+  const folderPath = path.resolve("avatars", "");
+  return results.map(({ _doc }) => {
+    const files = glob.sync(folderPath + `/${_doc._id}.*`);
+    if (files.length > 0) {
+      return {
+        ..._doc,
+        avatar: "/static" + files[0].substring(config.get("slicePath")),
+      };
+    } else {
+      const defaultImgPath = path.resolve("avatars", "", "noavatar.jpg");
+      return {
+        ..._doc,
+        avatar: "/static" + defaultImgPath.substring(config.get("slicePath")),
+      };
+    }
+  });
 };

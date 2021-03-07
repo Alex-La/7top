@@ -1,5 +1,6 @@
 const express = require("express");
 const config = require("config");
+const path = require("path");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
@@ -30,6 +31,7 @@ app.set("transporter", transporter);
 app.use("/api/tron", require("./routes/tron"));
 app.use("/api/main", require("./routes/main"));
 
+app.use("/static/avatars", express.static(path.join(__dirname, "avatars")));
 if (process.env.NODE_ENV === "production") {
   app.use("/", express.static(path.join(__dirname, "client", "build")));
   app.get("*", (_, res) => {

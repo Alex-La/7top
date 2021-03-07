@@ -17,7 +17,7 @@ export const allgamesPandingReducer = (state = true, action) => {
 };
 
 export const usersReducer = (
-  state = { allUsersLength: 0, allUsers: [] },
+  state = { allUsersLength: 0, cursor: 0, hasMore: false, allUsers: [] },
   action
 ) => {
   switch (action.type) {
