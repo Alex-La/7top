@@ -15,3 +15,24 @@ export const allgamesPandingReducer = (state = true, action) => {
       return state;
   }
 };
+
+export const usersReducer = (
+  state = { allUsersLength: 0, allUsers: [] },
+  action
+) => {
+  switch (action.type) {
+    case "USERS":
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
+export const usersPandingReducer = (state = true, action) => {
+  switch (action.type) {
+    case "USERS_PANDING":
+      return action.payload;
+    default:
+      return state;
+  }
+};

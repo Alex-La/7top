@@ -9,7 +9,7 @@ router.get("/allusers", async (req, res) => {
       allUsersLength: allUsers.length,
       allUsers: paginateResults({
         results: allUsers,
-        pageSize: 5,
+        pageSize: 10,
         after: req.query.after,
       }),
     });

@@ -1,9 +1,20 @@
-import { NavLink } from "react-router-dom";
+import { useEffect } from "react";
 import styles from "../css/account.module.css";
+
+import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getUsers } from "../redux/actions/mainActions";
 
 import Left from "../img/left.png";
 
 const Account = ({ backBtn = false, showWallet = false }) => {
+  const usersLength = useSelector(({ users }) => users.allUsersLength);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUsers());
+  }, [dispatch]);
+
   return (
     <header className="header" id="header">
       <div className={styles.container + " container"}>
@@ -18,7 +29,7 @@ const Account = ({ backBtn = false, showWallet = false }) => {
         <div className={styles.info}>
           <div className={styles.links}>
             {/* <NavLink to="/friends">1 My friends</NavLink> */}
-            <NavLink to="/people">1 All</NavLink>
+            <NavLink to="/people">{usersLength} All</NavLink>
             {showWallet ? (
               <a>My wallet: {/*id*/}</a>
             ) : (
