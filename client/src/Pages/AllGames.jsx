@@ -16,6 +16,7 @@ import Gavat from "../img/gavat.png";
 import Banner from "../img/banner.jpg";
 
 import AllGamesTimer from "../Components/AllGames/AllGamesTimer";
+import Account from "../Components/Account";
 
 const AllGames = () => {
   const { main, mainPanding } = useSelector(({ main, mainPanding }) => ({
@@ -32,6 +33,7 @@ const AllGames = () => {
 
   return (
     <div className="allgames">
+      <Account />
       <section className="section1" id="section1">
         <div className="container">
           <div className="component">
