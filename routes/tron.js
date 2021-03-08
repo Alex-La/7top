@@ -177,6 +177,7 @@ router.get("/owners/:contract", async (req, res) => {
     });
 
     res.json({
+      total: wallets.length,
       cursor: pagResult.length
         ? pagResult[pagResult.length - 1].cursorKey
         : null,
