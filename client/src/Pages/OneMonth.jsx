@@ -8,15 +8,15 @@ import { setCurrentContract } from "../redux/actions/tronActions";
 import Preloader from "../Components/Preloader";
 import Game from "../Components/Game/Game";
 
-const OneYear = () => {
+const OneMonth = () => {
   useEffect(() => {
     document.title =
-      "Лотерея с большим джекпотом, который выиграет один из участников гарантированно!";
+      "Лотерея с тиражом каждые четыре недели, существенный джекпот от 7top.org";
     document
       .querySelector('meta[name="description"]')
       .setAttribute(
         "content",
-        "Сделайте ставку в 5 долларов! Участвуй, количество билетов не ограничено. Джекпот может изменить твою жизнь! Испытай удачу. Выиграй!"
+        "Сорви крупный банк, тираж лотереи по номеру билета. Лучшая лотерея в мире с 2021г. Скачай крипто кошелек Tronlink, ведь выигрыш поступит сразу к тебе на кошелек, вывода ждать не нужно."
       );
   }, []);
 
@@ -24,7 +24,7 @@ const OneYear = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setCurrentContract({ contract: "EveryYear5" }));
+    dispatch(setCurrentContract({ contract: "Month5" }));
   }, [dispatch]);
 
   useEffect(() => {
@@ -35,9 +35,9 @@ const OneYear = () => {
 
   return (
     <div className="row game">
-      <Game title="Every year" time={main[7].yearTime} />
+      <Game title="Every 4 weeks" time={main[7].monthTime} />
     </div>
   );
 };
 
-export default OneYear;
+export default OneMonth;

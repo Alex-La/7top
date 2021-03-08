@@ -12,11 +12,14 @@ import Chelovek from "../../img/chelovek.png";
 
 const Header = ({ title, time }) => {
   const dispatch = useDispatch();
-  const balance = useSelector(({ balance }) => balance);
+  const { balance, contract } = useSelector(({ balance, contract }) => ({
+    balance,
+    contract,
+  }));
 
   useEffect(() => {
-    dispatch(getBalance({ contract: "EveryYear5" }));
-  }, [dispatch]);
+    dispatch(getBalance({ contract }));
+  }, [dispatch, contract]);
 
   const arrayOfSlides = [{ value: "5 $" }];
   const setting = {

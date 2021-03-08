@@ -1,3 +1,12 @@
+export const contractReducer = (state = "", action) => {
+  switch (action.type) {
+    case "CONTRACT":
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
 export const ownersReducer = (
   state = { total: 0, cursor: null, hasMore: false, owners: [] },
   action

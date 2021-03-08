@@ -1,3 +1,8 @@
+export const setCurrentContract = ({ contract }) => ({
+  type: "CONTRACT",
+  payload: contract,
+});
+
 export const getOwners = ({ contract, after = 0 }) => async (dispatch) => {
   const res = await fetchOwners(contract, after);
   dispatch({ type: "OWNERS", payload: res });

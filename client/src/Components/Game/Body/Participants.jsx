@@ -6,20 +6,21 @@ import Men2 from "../../../img/men2.png";
 
 const Body = () => {
   const dispatch = useDispatch();
-  const { total, cursor, hasMore, owners } = useSelector(
-    ({ owners }) => owners
-  );
+  const [
+    { total, cursor, hasMore, owners },
+    contract,
+  ] = useSelector(({ owners, contract }) => [owners, contract]);
 
   useEffect(() => {
-    dispatch(getOwners({ contract: "EveryYear5" }));
-  }, [dispatch]);
+    dispatch(getOwners({ contract }));
+  }, [dispatch, contract]);
 
   const [bottom, setBottom] = useState(false);
 
   useEffect(() => {
     if (hasMore && bottom)
-      dispatch(loadMoreOwners({ contract: "EveryYear5", after: cursor }));
-  }, [bottom, hasMore, dispatch]);
+      dispatch(loadMoreOwners({ contract, after: cursor }));
+  }, [bottom, hasMore, dispatch, contract]);
 
   const handleScroll = useCallback((e) =>
     setBottom(
