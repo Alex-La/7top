@@ -9,15 +9,15 @@ import { setCurrentContract } from "../redux/actions/tronActions";
 import Preloader from "../Components/Preloader";
 import Game from "../Components/Game/Game";
 
-const OneYear = () => {
+const LimitGame = () => {
   useEffect(() => {
     document.title =
-      "Лотерея с большим джекпотом, который выиграет один из участников гарантированно!";
+      "Лотерея 1 из 10 – игра с ограниченным количеством участников. Победит 1 игрок";
     document
       .querySelector('meta[name="description"]')
       .setAttribute(
         "content",
-        "Сделайте ставку в 5 долларов! Участвуй, количество билетов не ограничено. Джекпот может изменить твою жизнь! Испытай удачу. Выиграй!"
+        "Сделайте ставку в 5 долларов, десятая ставка проведет розыгрыш, определив рандомно 1победителя, им сможете стать Вы. Испытай удачу!"
       );
   }, []);
 
@@ -25,7 +25,7 @@ const OneYear = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setCurrentContract({ contract: "EveryYear5" }));
+    dispatch(setCurrentContract({ contract: "LimitLottery5" }));
   }, [dispatch]);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const OneYear = () => {
 
   return (
     <div className="row game">
-      <Game title="Every year" time={main[7].yearTime}>
+      <Game title="Every 10 people" time={main[7].monthTime}>
         <Slider {...setting}>
           {arrayOfSlides.map((item, index) => (
             <div className="item" key={index}>
@@ -60,4 +60,4 @@ const OneYear = () => {
   );
 };
 
-export default OneYear;
+export default LimitGame;

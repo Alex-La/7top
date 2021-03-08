@@ -5,6 +5,8 @@ import Preloader from "../Components/Preloader";
 
 const AllGames = lazy(() => import("../Pages/AllGames"));
 const People = lazy(() => import("../Pages/People"));
+const LimitGame = lazy(() => import("../Pages/LimitGame"));
+const OneWeek = lazy(() => import("../Pages/OneWeek"));
 const OneMonth = lazy(() => import("../Pages/OneMonth"));
 const OneYear = lazy(() => import("../Pages/OneYear"));
 
@@ -14,6 +16,8 @@ const Routes = () => {
       <Switch>
         <Route exact path="/" component={AllGames} />
         <Route path="/people" component={People} />
+        <Route path="/limitGame" component={LimitGame} />
+        <Route path="/oneWeek" component={OneWeek} />
         <Route path="/oneMonth" component={OneMonth} />
         <Route path="/oneYear" component={OneYear} />
         <Redirect to="/" />

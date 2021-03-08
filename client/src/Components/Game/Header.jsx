@@ -2,15 +2,13 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBalance } from "../../redux/actions/tronActions";
 
-import Slider from "react-slick";
-
 import Timer from "../../Components/Timer";
 import Account from "../../Components/Account";
 
 import Money from "../../img/money.png";
 import Chelovek from "../../img/chelovek.png";
 
-const Header = ({ title, time }) => {
+const Header = ({ title, time, children }) => {
   const dispatch = useDispatch();
   const { balance, contract } = useSelector(({ balance, contract }) => ({
     balance,
@@ -20,17 +18,6 @@ const Header = ({ title, time }) => {
   useEffect(() => {
     dispatch(getBalance({ contract }));
   }, [dispatch, contract]);
-
-  const arrayOfSlides = [{ value: "5 $" }];
-  const setting = {
-    centerMode: true,
-    slidesToShow: 1,
-    dots: false,
-    autoplay: false,
-    beforeChange: (_, newInd) => {
-      //setCurrentSlide(newInd);
-    },
-  };
 
   return (
     <section>
@@ -57,13 +44,7 @@ const Header = ({ title, time }) => {
           <p className="p5">{title}</p>
         </div>
 
-        <Slider {...setting}>
-          {arrayOfSlides.map((item, index) => (
-            <div className="item" key={index}>
-              <p>{item.value}</p>
-            </div>
-          ))}
-        </Slider>
+        {children}
       </div>
     </section>
   );

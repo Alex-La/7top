@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Slider from "react-slick";
 import "../css/game.css";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -31,11 +32,30 @@ const OneMonth = () => {
     if (main.length === 0) dispatch(getAllgames());
   }, [main, dispatch]);
 
+  const arrayOfSlides = [{ value: "5 $" }];
+  const setting = {
+    centerMode: true,
+    slidesToShow: 1,
+    dots: false,
+    autoplay: false,
+    beforeChange: (_, newInd) => {
+      //setCurrentSlide(newInd);
+    },
+  };
+
   if (main.length === 0) return <Preloader />;
 
   return (
     <div className="row game">
-      <Game title="Every 4 weeks" time={main[7].monthTime} />
+      <Game title="Every 4 weeks" time={main[7].monthTime}>
+        <Slider {...setting}>
+          {arrayOfSlides.map((item, index) => (
+            <div className="item" key={index}>
+              <p>{item.value}</p>
+            </div>
+          ))}
+        </Slider>
+      </Game>
     </div>
   );
 };

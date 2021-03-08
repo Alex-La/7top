@@ -23,7 +23,9 @@ const fetchOwners = async (contract, after) => {
   }
 };
 
-export const getBalance = ({ contract }) => async (dispatch) => {
+export const getBalance = ({ contract = "LimitLottery5" }) => async (
+  dispatch
+) => {
   fetch(`/api/tron/balance/${contract}`)
     .then((response) => {
       if (!response.ok) throw new Error(response.statusText);

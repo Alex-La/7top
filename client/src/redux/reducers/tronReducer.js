@@ -12,13 +12,13 @@ export const ownersReducer = (
   action
 ) => {
   switch (action.type) {
+    case "OWNERS":
+      return action.payload;
     case "LOAD_MORE_OWNERS":
       return {
         ...action.payload,
         owners: [...state.owners, ...action.payload.owners],
       };
-    case "OWNERS":
-      return action.payload;
     default:
       return state;
   }
