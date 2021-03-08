@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const TronWeb = require("tronweb");
+const User = require("../models/User");
+const { paginateResults, getAvatarPath } = require("../utils");
 
 const TRONGRID_API = "https://api.shasta.trongrid.io";
 const DEFAULT_ADDRESS = "TBm1ymSid31J4LBbUQ6dnCMem5tTYWc4Fg";
@@ -137,6 +139,53 @@ router.get("/allgames", async (_, res) => {
       data.push(obj);
     }
     res.json([...data, { weekTime, monthTime, yearTime }]);
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "Server error!" });
+  }
+});
+
+router.get("/owners/:contract", async (req, res) => {
+  try {
+    const data = await (await games[req.params.contract])
+      .ownersOfTickets()
+      .call();
+    const wallets = data.map((wallet) => tronweb.address.fromHex(wallet));
+    const users = await User.find({ wallet: wallets });
+
+    const result = wallets.map((wallet, index) => {
+      const temp = users.filter((user) => wallet === user.wallet)[0];
+      if (temp)
+        return {
+          name: temp.name,
+          cursorKey: index,
+          avatar: getAvatarPath({ id: temp._id }),
+        };
+      else
+        return {
+          name: wallet,
+          cursorKey: index,
+          avatar: getAvatarPath({ id: 0 }),
+        };
+    });
+
+    const pagResult = paginateResults({
+      results: result,
+      pageSize: 10,
+      after: req.query.after,
+      cursorKey: "cursorKey",
+    });
+
+    res.json({
+      cursor: pagResult.length
+        ? pagResult[pagResult.length - 1].cursorKey
+        : null,
+      hasMore: pagResult.length
+        ? pagResult[pagResult.length - 1].cursorKey !==
+          result[result.length - 1].cursorKey
+        : false,
+      owners: pagResult,
+    });
   } catch (e) {
     console.log(e);
     res.status(500).json({ message: "Server error!" });

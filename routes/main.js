@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const User = require("../models/User");
-const { paginateResults, addAvatarPaths } = require("../utils");
+const { paginateResults, getAvatarPath } = require("../utils");
 
 router.get("/allusers", async (req, res) => {
   try {
@@ -17,7 +17,10 @@ router.get("/allusers", async (req, res) => {
       hasMore: allUsers.length
         ? allUsers[allUsers.length - 1]._id !== users[users.length - 1]._id
         : false,
-      allUsers: addAvatarPaths({ results: allUsers }),
+      allUsers: allUsers.map(({ _doc }) => ({
+        ..._doc,
+        avatar: getAvatarPath({ id: _doc._id }),
+      })),
     });
   } catch (e) {
     console.log(e);

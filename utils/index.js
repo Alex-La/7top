@@ -6,6 +6,7 @@ module.exports.paginateResults = ({
   after: cursor,
   pageSize = 20,
   results,
+  cursorKey = "_id",
   getCursor = () => null,
 }) => {
   if (pageSize < 1) return [];
@@ -13,7 +14,7 @@ module.exports.paginateResults = ({
   if (!cursor) return results.slice(0, pageSize);
   const cursorIndex = results.findIndex((item) => {
     // if an item has a `cursor` on it, use that, otherwise try to generate one
-    let itemCursor = item._id ? item._id : getCursor(item);
+    let itemCursor = item[cursorKey] ? item[cursorKey] : getCursor(item);
 
     // if there's still not a cursor, return false by
 
@@ -30,21 +31,14 @@ module.exports.paginateResults = ({
     : results.slice(0, pageSize);
 };
 
-module.exports.addAvatarPaths = ({ results }) => {
+module.exports.getAvatarPath = ({ id = 0 }) => {
   const folderPath = path.resolve("avatars", "");
-  return results.map(({ _doc }) => {
-    const files = glob.sync(folderPath + `/${_doc._id}.*`);
-    if (files.length > 0) {
-      return {
-        ..._doc,
-        avatar: "/static" + files[0].substring(config.get("slicePath")),
-      };
-    } else {
-      const defaultImgPath = path.resolve("avatars", "", "noavatar.jpg");
-      return {
-        ..._doc,
-        avatar: "/static" + defaultImgPath.substring(config.get("slicePath")),
-      };
-    }
-  });
+  const files = glob.sync(folderPath + `/${id}.*`);
+
+  if (files.length > 0) {
+    return "/static" + files[0].substring(config.get("slicePath"));
+  } else {
+    const defaultImgPath = path.resolve("avatars", "", "noavatar.jpg");
+    return "/static" + defaultImgPath.substring(config.get("slicePath"));
+  }
 };
