@@ -193,4 +193,18 @@ router.get("/owners/:contract", async (req, res) => {
   }
 });
 
+router.get("/balance/:contract", async (req, res) => {
+  try {
+    const data = await (await games[req.params.contract])
+      .getSumOnContract()
+      .call();
+
+    const balance = tronweb.toDecimal(data._hex);
+    res.json({ balance: Math.floor(balance / 1e12) });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "Server error!" });
+  }
+});
+
 module.exports = router;

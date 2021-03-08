@@ -17,3 +17,12 @@ const fetchOwners = async (contract, after) => {
     console.log(error);
   }
 };
+
+export const getBalance = ({ contract }) => async (dispatch) => {
+  fetch(`/api/tron/balance/${contract}`)
+    .then((response) => {
+      if (!response.ok) throw new Error(response.statusText);
+      return response.json();
+    })
+    .then((res) => dispatch({ type: "BALANCE", payload: res.balance }));
+};

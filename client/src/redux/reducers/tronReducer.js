@@ -14,3 +14,12 @@ export const ownersReducer = (
       return state;
   }
 };
+
+export const balanceReducer = (state = 0, action) => {
+  switch (action.type) {
+    case "BALANCE":
+      return action.payload;
+    default:
+      return state;
+  }
+};

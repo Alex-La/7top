@@ -3,6 +3,7 @@ import { Fragment } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Body from "./Body/Participants";
+import Tickets from "./Body/Tickets";
 
 const Game = ({ title, time = false }) => {
   return (
@@ -12,6 +13,7 @@ const Game = ({ title, time = false }) => {
         <div className="container">
           <div className="section22">
             <Body />
+            <Tickets />
           </div>
         </div>
       </section>

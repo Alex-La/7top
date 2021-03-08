@@ -5,7 +5,7 @@ import {
   usersReducer,
   usersPandingReducer,
 } from "./mainReducer";
-import { ownersReducer } from "./tronReducer";
+import { ownersReducer, balanceReducer } from "./tronReducer";
 
 export const rootReducer = combineReducers({
   main: mainReducer,
@@ -13,4 +13,5 @@ export const rootReducer = combineReducers({
   users: usersReducer,
   usersPanding: usersPandingReducer,
   owners: ownersReducer,
+  balance: balanceReducer,
 });
