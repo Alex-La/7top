@@ -1,40 +1,37 @@
-export const mainReducer = (state = [], action) => {
+export const allgames = (state = false, action) => {
   switch (action.type) {
-    case "GET_ALLGAMES":
+    case "ALLGAMES_SUCCESS":
+      return false;
+    case "ALLGAMES":
       return action.payload;
     default:
       return state;
   }
 };
 
-export const allgamesPandingReducer = (state = true, action) => {
-  switch (action.type) {
-    case "GET_ALLGAMES_PANDING":
-      return action.payload;
-    default:
-      return state;
-  }
+const usersState = {
+  allUsersLength: undefined,
+  cursor: 0,
+  hasMore: false,
+  allUsers: [],
+  loading: false,
+  success: false,
 };
-
-export const usersReducer = (
-  state = { allUsersLength: 0, cursor: 0, hasMore: false, allUsers: [] },
-  action
-) => {
+export const users = (state = usersState, action) => {
   switch (action.type) {
+    case "USERS_SUCCESS":
+      return { ...state, success: false };
     case "USERS":
+      return { ...action.payload, success: true, loading: false };
+    case "USERS_LOADING":
+      return { ...state, loading: true };
+    case "LOAD_MORE_USERS":
       return {
         ...action.payload,
+        loading: false,
+        success: true,
         allUsers: [...state.allUsers, ...action.payload.allUsers],
       };
-    default:
-      return state;
-  }
-};
-
-export const usersPandingReducer = (state = true, action) => {
-  switch (action.type) {
-    case "USERS_PANDING":
-      return action.payload;
     default:
       return state;
   }

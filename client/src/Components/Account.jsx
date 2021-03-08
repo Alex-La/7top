@@ -8,12 +8,16 @@ import { getUsers } from "../redux/actions/mainActions";
 import Left from "../img/left.png";
 
 const Account = ({ backBtn = false, showWallet = false }) => {
-  const usersLength = useSelector(({ users }) => users.allUsersLength);
+  const allUsersLength = useSelector(({ users }) => users.allUsersLength);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (usersLength === 0) dispatch(getUsers());
-  }, [dispatch, usersLength]);
+    console.log(allUsersLength);
+  }, [allUsersLength]);
+
+  useEffect(() => {
+    if (!allUsersLength) dispatch(getUsers());
+  }, [dispatch, allUsersLength]);
 
   return (
     <header className="header" id="header">
@@ -29,7 +33,7 @@ const Account = ({ backBtn = false, showWallet = false }) => {
         <div className={styles.info}>
           <div className={styles.links}>
             {/* <NavLink to="/friends">1 My friends</NavLink> */}
-            <NavLink to="/people">{usersLength} All</NavLink>
+            <NavLink to="/people">{allUsersLength} All</NavLink>
             {showWallet ? (
               <a>My wallet: {/*id*/}</a>
             ) : (

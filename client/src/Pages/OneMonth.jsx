@@ -21,16 +21,17 @@ const OneMonth = () => {
       );
   }, []);
 
-  const main = useSelector(({ main }) => main);
+  const allgames = useSelector(({ allgames }) => allgames);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(setCurrentContract({ contract: "Month5" }));
+    return () => dispatch(setCurrentContract({ contract: null }));
   }, [dispatch]);
 
   useEffect(() => {
-    if (main.length === 0) dispatch(getAllgames());
-  }, [main, dispatch]);
+    if (!allgames) dispatch(getAllgames());
+  }, [allgames, dispatch]);
 
   const arrayOfSlides = [{ value: "5 $" }];
   const setting = {
@@ -43,11 +44,11 @@ const OneMonth = () => {
     },
   };
 
-  if (main.length === 0) return <Preloader />;
+  if (!allgames) return <Preloader />;
 
   return (
     <div className="row game">
-      <Game title="Every 4 weeks" time={main[7].monthTime}>
+      <Game title="Every 10 people" time={allgames[7].monthTime}>
         <Slider {...setting}>
           {arrayOfSlides.map((item, index) => (
             <div className="item" key={index}>

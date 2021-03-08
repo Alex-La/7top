@@ -2,8 +2,7 @@ import { useEffect } from "react";
 import Slider from "react-slick";
 import "../css/game.css";
 
-import { useSelector, useDispatch } from "react-redux";
-import { getAllgames } from "../redux/actions/mainActions";
+import { useDispatch } from "react-redux";
 import { setCurrentContract } from "../redux/actions/tronActions";
 
 import Preloader from "../Components/Preloader";
@@ -21,33 +20,31 @@ const LimitGame = () => {
       );
   }, []);
 
-  const main = useSelector(({ main }) => main);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(setCurrentContract({ contract: "LimitLottery5" }));
+    return () => dispatch(setCurrentContract({ contract: null }));
   }, [dispatch]);
 
-  useEffect(() => {
-    if (main.length === 0) dispatch(getAllgames());
-  }, [main, dispatch]);
-
-  const arrayOfSlides = [{ value: "5 $" }];
+  const arrayOfSlides = [
+    { value: "5 $" },
+    { value: "15 $" },
+    { value: "50 $" },
+  ];
   const setting = {
     centerMode: true,
     slidesToShow: 1,
     dots: false,
     autoplay: false,
-    beforeChange: (_, newInd) => {
-      //setCurrentSlide(newInd);
+    beforeChange: (_, newId) => {
+      dispatch(setCurrentContract({ contract: setCurrentSlide(newId) }));
     },
   };
 
-  if (main.length === 0) return <Preloader />;
-
   return (
     <div className="row game">
-      <Game title="Every 10 people" time={main[7].monthTime}>
+      <Game title="Every 10 people">
         <Slider {...setting}>
           {arrayOfSlides.map((item, index) => (
             <div className="item" key={index}>
@@ -58,6 +55,19 @@ const LimitGame = () => {
       </Game>
     </div>
   );
+};
+
+const setCurrentSlide = (id) => {
+  switch (id) {
+    case 0:
+      return "LimitLottery5";
+    case 1:
+      return "LimitLottery15";
+    case 2:
+      return "LimitLottery50";
+    default:
+      return "LimitLottery5";
+  }
 };
 
 export default LimitGame;

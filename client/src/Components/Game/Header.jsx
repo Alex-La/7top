@@ -10,14 +10,19 @@ import Chelovek from "../../img/chelovek.png";
 
 const Header = ({ title, time, children }) => {
   const dispatch = useDispatch();
-  const { balance, contract } = useSelector(({ balance, contract }) => ({
-    balance,
-    contract,
-  }));
+  const contract = useSelector(({ contract }) => contract);
+  // const { balance, contract } = useSelector(({ balance, contract }) => ({
+  //   balance,
+  //   contract,
+  // }));
+
+  // useEffect(() => {
+  //   dispatch(getBalance({ contract }));
+  // }, [dispatch, contract]);
 
   useEffect(() => {
-    dispatch(getBalance({ contract }));
-  }, [dispatch, contract]);
+    console.log(contract);
+  }, [contract]);
 
   return (
     <section>
@@ -32,7 +37,7 @@ const Header = ({ title, time, children }) => {
             <div className="total-info">
               <img src={Money} alt="money" />
               <p className="p4" id="lalla">
-                <span>{balance} $</span>
+                <span>{1} $</span>
                 Bank
               </p>
             </div>

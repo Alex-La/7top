@@ -21,33 +21,34 @@ const OneWeek = () => {
       );
   }, []);
 
-  const main = useSelector(({ main }) => main);
+  const allgames = useSelector(({ allgames }) => allgames);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(setCurrentContract({ contract: "Everyweek5" }));
+    return () => dispatch(setCurrentContract({ contract: null }));
   }, [dispatch]);
 
   useEffect(() => {
-    if (main.length === 0) dispatch(getAllgames());
-  }, [main, dispatch]);
+    if (!allgames) dispatch(getAllgames());
+  }, [allgames, dispatch]);
 
-  const arrayOfSlides = [{ value: "5 $" }];
+  const arrayOfSlides = [{ value: "5 $" }, { value: "50 $" }];
   const setting = {
     centerMode: true,
     slidesToShow: 1,
     dots: false,
     autoplay: false,
-    beforeChange: (_, newInd) => {
-      //setCurrentSlide(newInd);
+    beforeChange: (_, newId) => {
+      dispatch(setCurrentContract({ contract: setCurrentSlide(newId) }));
     },
   };
 
-  if (main.length === 0) return <Preloader />;
+  if (!allgames) return <Preloader />;
 
   return (
     <div className="row game">
-      <Game title="Every week" time={main[7].monthTime}>
+      <Game title="Every 10 people" time={allgames[7].weekTime}>
         <Slider {...setting}>
           {arrayOfSlides.map((item, index) => (
             <div className="item" key={index}>
@@ -58,6 +59,17 @@ const OneWeek = () => {
       </Game>
     </div>
   );
+};
+
+const setCurrentSlide = (id) => {
+  switch (id) {
+    case 0:
+      return "Everyweek5";
+    case 1:
+      return "Everyweek50";
+    default:
+      return "Everyweek5";
+  }
 };
 
 export default OneWeek;

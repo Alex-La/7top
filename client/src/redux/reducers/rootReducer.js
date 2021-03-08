@@ -1,18 +1,5 @@
 import { combineReducers } from "redux";
-import {
-  mainReducer,
-  allgamesPandingReducer,
-  usersReducer,
-  usersPandingReducer,
-} from "./mainReducer";
-import { ownersReducer, balanceReducer, contractReducer } from "./tronReducer";
+import * as mainReducer from "./mainReducer";
+import * as tronReducer from "./tronReducer";
 
-export const rootReducer = combineReducers({
-  main: mainReducer,
-  mainPanding: allgamesPandingReducer,
-  users: usersReducer,
-  usersPanding: usersPandingReducer,
-  owners: ownersReducer,
-  balance: balanceReducer,
-  contract: contractReducer,
-});
+export const rootReducer = combineReducers({ ...mainReducer, ...tronReducer });
