@@ -12,8 +12,8 @@ const Account = ({ backBtn = false, showWallet = false }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUsers());
-  }, [dispatch]);
+    if (usersLength === 0) dispatch(getUsers());
+  }, [dispatch, usersLength]);
 
   return (
     <header className="header" id="header">

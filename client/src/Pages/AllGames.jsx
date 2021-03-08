@@ -37,8 +37,12 @@ const AllGames = () => {
   const dispath = useDispatch();
 
   useEffect(() => {
-    dispath(getAllgames());
-  }, [dispath]);
+    console.log(main);
+  }, [main]);
+
+  useEffect(() => {
+    if (main.length === 0) dispath(getAllgames());
+  }, [dispath, main]);
 
   if (mainPanding || main.length === 0) return <Preloader />;
 

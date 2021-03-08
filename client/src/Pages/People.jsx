@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import "../css/people.css";
 
 import { useDispatch, useSelector } from "react-redux";
