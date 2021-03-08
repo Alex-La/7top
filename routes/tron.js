@@ -163,7 +163,7 @@ router.get("/owners/:contract", async (req, res) => {
         };
       else
         return {
-          name: wallet,
+          name: wallet.substr(0, 6) + "..." + wallet.substr(30, 4),
           cursorKey: index,
           avatar: getAvatarPath({ id: 0 }),
         };
