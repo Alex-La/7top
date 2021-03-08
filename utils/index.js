@@ -35,6 +35,7 @@ module.exports.addAvatarPaths = ({ results }) => {
   return results.map(({ _doc }) => {
     const files = glob.sync(folderPath + `/${_doc._id}.*`);
     if (files.length > 0) {
+      console.log("/static" + files[0].substring(config.get("slicePath")));
       return {
         ..._doc,
         avatar: "/static" + files[0].substring(config.get("slicePath")),
