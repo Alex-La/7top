@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "../css/register.css";
 
-import { useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 
 import Img1 from "../img/img1.png";
 import Logo from "../img/logo.png";
@@ -119,9 +119,9 @@ const AuthPage = () => {
                 Sign in
               </button>
               <div className="links">
-                <a href="/restore-password" className="forget">
+                <NavLink to="/restore-password" className="forget">
                   Forget Password
-                </a>
+                </NavLink>
               </div>
             </form>
           </div>

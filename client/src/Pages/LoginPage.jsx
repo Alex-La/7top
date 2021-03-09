@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import "../css/login.css";
 
 import Img1 from "../img/img1.png";
@@ -67,10 +68,10 @@ const LoginPage = () => {
                 Login
               </button>
               <div className="register">
-                <a href="/restore-password" className="forget">
+                <NavLink to="/restore-password" className="forget">
                   Forget Password
-                </a>
-                <a href="/register">Create an account</a>
+                </NavLink>
+                <NavLink to="/register">Create an account</NavLink>
               </div>
             </form>
           </div>
