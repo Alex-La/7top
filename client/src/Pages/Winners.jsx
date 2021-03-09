@@ -1,4 +1,7 @@
 import { useEffect } from "react";
+import "../css/allWinners.css";
+
+import Account from "../Components/Account";
 
 const Winners = () => {
   useEffect(() => {
@@ -11,7 +14,14 @@ const Winners = () => {
       );
   }, []);
 
-  return "geelo";
+  return (
+    <div className="people all-winners">
+      <Account backBtn={true} />
+      <section>
+        <div className="container"></div>
+      </section>
+    </div>
+  );
 };
 
 export default Winners;

@@ -183,6 +183,22 @@ router.get("/winners/:contract", async (req, res) => {
   }
 });
 
+router.get("/winners", async (_, res) => {
+  try {
+    const names = ["firstWinner", "secondWinner"];
+
+    const trxPrice = tronweb.toDecimal(
+      (await addresses.SevenTOP.trxPrice().call())._hex
+    );
+    const data = [];
+
+    res.json(names);
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "Server error!" });
+  }
+});
+
 module.exports = router;
 
 //--------------------------------------------------------------------------
