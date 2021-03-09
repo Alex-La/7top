@@ -4,6 +4,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Body from "./Body/Participants";
 import Tickets from "./Body/Tickets";
+import Winners from "./Body/Winners";
 
 const Game = ({ title, time = false, children }) => {
   return (
@@ -15,7 +16,10 @@ const Game = ({ title, time = false, children }) => {
         <div className="container">
           <div className="section22">
             <Body />
-            <Tickets />
+            <div className="tickets">
+              <Tickets />
+              <Winners />
+            </div>
           </div>
         </div>
       </section>

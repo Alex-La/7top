@@ -1,10 +1,11 @@
+import { Fragment } from "react";
 import Ticket from "../../../img/ticket.png";
 
 const Tickets = () => {
   const buyTicket = () => console.log("Buy ticket");
 
   return (
-    <div className="tickets">
+    <Fragment>
       <a onClick={buyTicket}>
         <div className="btn">BUY</div>
       </a>
@@ -16,8 +17,25 @@ const Tickets = () => {
         </p>
       </div>
 
-      <div className="tickets_"></div>
-    </div>
+      <div className="tickets_">
+        {/* {myTickets
+                  ? myTickets.map((item, index) => (
+                      <div key={index}>
+                        <p className="p8">№ {item - 1}</p>
+                        <p className="p9">
+                          <img
+                            src={Ticketimg}
+                            alt="ticketimg"
+                            width={60}
+                            height={60}
+                          />{" "}
+                        </p>
+                      </div>
+                    ))
+                  : ""} */}
+      </div>
+      <hr />
+    </Fragment>
   );
 };
 
