@@ -30,20 +30,23 @@ const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
             </NavLink>
           )}
 
-          {me && (
-            <div className={styles.profile}>
-              <div className={styles.elipse}>
-                {
-                  <ImageUpload
-                    img={me.avatar}
-                    id={me._id}
-                    token={localStorage.getItem("token")}
-                  />
-                }
-              </div>
-              <p className={styles.p1}>{me.name}</p>
-            </div>
-          )}
+          <div className={styles.profile}>
+            {me && (
+              <>
+                {" "}
+                <div className={styles.elipse}>
+                  {
+                    <ImageUpload
+                      img={me.avatar}
+                      id={me._id}
+                      token={localStorage.getItem("token")}
+                    />
+                  }
+                </div>
+                <p className={styles.p1}>{me.name}</p>
+              </>
+            )}
+          </div>
 
           {winnerList && (
             <NavLink to="/winners" className={styles.winnersBtn}>
