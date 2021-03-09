@@ -6,6 +6,15 @@ import Win from "../../../img/win.png";
 import Place1 from "../../../img/place1.png";
 import Place2 from "../../../img/place2.png";
 
+const ReturnDate = ({ time }) => {
+  const date = new Date(time * 1000);
+  return (
+    <span className="p-date">
+      {date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear()}
+    </span>
+  );
+};
+
 const Winners = () => {
   const dispatch = useDispatch();
   const { winners, contract } = useSelector(({ winners, contract }) => ({
@@ -32,7 +41,9 @@ const Winners = () => {
             </div>
           </div>
           <div className="avatar-title">
-            <p className="p11">{winner.user.name}</p>
+            <p className="p11">
+              {winner.user.name} <ReturnDate time={winner.timestapmt} />
+            </p>
             <div className="place">
               <img
                 className="place1"
