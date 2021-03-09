@@ -21,7 +21,7 @@ const Routes = () => {
         <Route exact path="/" component={AllGames} />
         <Route path="/register" component={AuthPage} />
         <Route path="/login" component={LoginPage} />
-        <Route exact path="/new-password/:token" component={NewPassword} />
+        <Route path="/new-password/:token" component={NewPassword} />
         <Route path="/restore-password" component={RestorePassword} />
         <Route path="/people" component={People} />
         <Route path="/limitGame" component={LimitGame} />
