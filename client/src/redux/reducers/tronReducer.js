@@ -34,3 +34,14 @@ export const owners = (
       return state;
   }
 };
+
+export const winners = (state = [], action) => {
+  switch (action.type) {
+    case "WINNERS_PANDING":
+      return [];
+    case "WINNERS":
+      return action.payload;
+    default:
+      return state;
+  }
+};

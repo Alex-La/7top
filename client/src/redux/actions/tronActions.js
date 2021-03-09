@@ -33,3 +33,14 @@ const fetchOwners = async (contract, after = 0) => {
     console.log(error);
   }
 };
+
+export const getWinners = (contract) => async (dispatch) => {
+  fetch(`/api/tron/winners/${contract}`)
+    .then((response) => {
+      dispatch({ type: "WINNERS_PANDING" });
+      if (!response.ok) throw new Error(response.statusText);
+      return response.json();
+    })
+    .then((res) => dispatch({ type: "WINNERS", payload: res }))
+    .catch(() => dispatch({ type: "WINNERS_PANDING" }));
+};
