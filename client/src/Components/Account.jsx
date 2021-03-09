@@ -33,14 +33,18 @@ const Account = ({ backBtn = false, showWallet = false }) => {
             {showWallet ? (
               <a>My wallet: {/*id*/}</a>
             ) : (
-              <a
-                href="https://t.me/joinchat/HSApdhx_OO301lltbkyfhw"
-                className={styles.chat}
-                target="_blank"
-              >
-                <i className="fa fa-telegram" aria-hidden="true"></i>
-                <span>Telegram chat</span>
-              </a>
+              <>
+                <NavLink to="/login">Вход</NavLink>
+                <NavLink to="/register">Регистрация</NavLink>
+                <a
+                  href="https://t.me/joinchat/HSApdhx_OO301lltbkyfhw"
+                  className={styles.chat}
+                  target="_blank"
+                >
+                  <i className="fa fa-telegram" aria-hidden="true"></i>
+                  <span>Telegram chat</span>
+                </a>
+              </>
             )}
             {/* {admin ? <NavLink to="/admin">Admin</NavLink> : ""} */}
           </div>

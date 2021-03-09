@@ -4,6 +4,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Preloader from "../Components/Preloader";
 
 const AllGames = lazy(() => import("../Pages/AllGames"));
+const AuthPage = lazy(() => import("../Pages/AuthPage"));
 const People = lazy(() => import("../Pages/People"));
 const LimitGame = lazy(() => import("../Pages/LimitGame"));
 const OneWeek = lazy(() => import("../Pages/OneWeek"));
@@ -15,6 +16,7 @@ const Routes = () => {
     <Suspense fallback={<Preloader />}>
       <Switch>
         <Route exact path="/" component={AllGames} />
+        <Route path="/register" component={AuthPage} />
         <Route path="/people" component={People} />
         <Route path="/limitGame" component={LimitGame} />
         <Route path="/oneWeek" component={OneWeek} />
