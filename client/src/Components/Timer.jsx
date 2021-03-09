@@ -14,12 +14,6 @@ const TimerGame = ({ time }) => {
         <Timer
           initialTime={time}
           direction="backward"
-          onReset={() => {
-            console.log("onReset hook");
-          }}
-          onStop={() => {
-            console.log("onStop hook");
-          }}
           checkpoints={[
             {
               time: 1,

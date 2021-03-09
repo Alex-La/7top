@@ -12,10 +12,6 @@ const Account = ({ backBtn = false, showWallet = false }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(allUsersLength);
-  }, [allUsersLength]);
-
-  useEffect(() => {
     if (!allUsersLength) dispatch(getUsers());
   }, [dispatch, allUsersLength]);
 

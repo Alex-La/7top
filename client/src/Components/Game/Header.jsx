@@ -19,10 +19,6 @@ const Header = ({ title, time, children }) => {
     if (contract) dispatch(getBalance({ contract }));
   }, [dispatch, contract]);
 
-  useEffect(() => {
-    console.log(contract);
-  }, [contract]);
-
   return (
     <section>
       <div className="container">

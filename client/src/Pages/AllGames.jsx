@@ -37,10 +37,6 @@ const AllGames = () => {
     if (!allgames) dispath(getAllgames());
   }, [dispath, allgames]);
 
-  useEffect(() => {
-    console.log(allgames);
-  }, [allgames]);
-
   if (!allgames) return <Preloader />;
 
   return (
