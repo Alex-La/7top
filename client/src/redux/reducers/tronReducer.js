@@ -7,6 +7,17 @@ export const contract = (state = null, action) => {
   }
 };
 
+export const balance = (state = 0, action) => {
+  switch (action.type) {
+    case "BALANCE":
+      return action.payload;
+    case "BALANCE_PANDING":
+      return 0;
+    default:
+      return state;
+  }
+};
+
 // export const ownersReducer = (
 //   state = { total: 0, cursor: null, hasMore: false, owners: [] },
 //   action
@@ -19,15 +30,6 @@ export const contract = (state = null, action) => {
 //         ...action.payload,
 //         owners: [...state.owners, ...action.payload.owners],
 //       };
-//     default:
-//       return state;
-//   }
-// };
-
-// export const balanceReducer = (state = 0, action) => {
-//   switch (action.type) {
-//     case "BALANCE":
-//       return action.payload;
 //     default:
 //       return state;
 //   }

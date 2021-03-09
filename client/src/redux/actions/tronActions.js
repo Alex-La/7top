@@ -3,6 +3,17 @@ export const setCurrentContract = ({ contract }) => ({
   payload: contract,
 });
 
+export const getBalance = ({ contract }) => async (dispatch) => {
+  fetch(`/api/tron/balance/${contract}`)
+    .then((response) => {
+      dispatch({ type: "BALANCE_PANDING" });
+      if (!response.ok) throw new Error(response.statusText);
+      return response.json();
+    })
+    .then((res) => dispatch({ type: "BALANCE", payload: res.balance }))
+    .catch(() => dispatch({ type: "BALANCE_PANDING" }));
+};
+
 // export const getOwners = ({ contract, after = 0 }) => async (dispatch) => {
 //   const res = await fetchOwners(contract, after);
 //   dispatch({ type: "OWNERS", payload: res });
@@ -21,15 +32,4 @@ export const setCurrentContract = ({ contract }) => ({
 //   } catch (error) {
 //     console.log(error);
 //   }
-// };
-
-// export const getBalance = ({ contract = "LimitLottery5" }) => async (
-//   dispatch
-// ) => {
-//   fetch(`/api/tron/balance/${contract}`)
-//     .then((response) => {
-//       if (!response.ok) throw new Error(response.statusText);
-//       return response.json();
-//     })
-//     .then((res) => dispatch({ type: "BALANCE", payload: res.balance }));
 // };
