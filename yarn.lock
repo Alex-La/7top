@@ -2223,6 +2223,14 @@ tree-kill@^1.2.2:
   resolved "https://registry.yarnpkg.com/tree-kill/-/tree-kill-1.2.2.tgz#4ca09a9092c88b73a7cdc5e8a01b507b0790a0cc"
   integrity sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==
 
+trongrid@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/trongrid/-/trongrid-1.2.6.tgz#a4c939f52f8dbea9596d4809ee9d5ba52d71bb86"
+  integrity sha512-5NAyz1uvwdD0xPC3VShNk+yFP+bFSTo2m+Eli3beWBXzb5SPxWIOZ3BHN1ohD9jGlOKuq7UD+pOGvd+F16EqVg==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    babel-runtime "^6.26.0"
+
 tronweb@^3.2.6:
   version "3.2.6"
   resolved "https://registry.yarnpkg.com/tronweb/-/tronweb-3.2.6.tgz#4a9a5eed70561e4ec3cc6faee02b78831dcfaf64"
