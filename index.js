@@ -31,6 +31,7 @@ app.set("transporter", transporter);
 app.use("/api/tron", require("./routes/tron"));
 app.use("/api/main", require("./routes/main"));
 app.use("/api/auth", require("./routes/auth"));
+app.use("/api/avatar", require("./routes/avatar"));
 
 app.use("/static/avatars", express.static(path.join(__dirname, "avatars")));
 if (process.env.NODE_ENV === "production") {

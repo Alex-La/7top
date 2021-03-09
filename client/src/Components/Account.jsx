@@ -33,7 +33,13 @@ const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
           {me && (
             <div className={styles.profile}>
               <div className={styles.elipse}>
-                {<ImageUpload preview={me.avatar} />}
+                {
+                  <ImageUpload
+                    img={me.avatar}
+                    id={me._id}
+                    token={localStorage.getItem("token")}
+                  />
+                }
               </div>
               <p className={styles.p1}>{me.name}</p>
             </div>

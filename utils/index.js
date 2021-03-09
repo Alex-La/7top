@@ -1,6 +1,7 @@
 const glob = require("glob");
 const config = require("config");
 const path = require("path");
+const jwt = require("jsonwebtoken");
 
 module.exports.paginateResults = ({
   after: cursor,
@@ -40,5 +41,26 @@ module.exports.getAvatarPath = ({ id = 0 }) => {
   } else {
     const defaultImgPath = path.resolve("avatars", "", "noavatar.jpg");
     return "/static" + defaultImgPath.substring(config.get("slicePath"));
+  }
+};
+
+module.exports.verifyToken = async (req, res, next) => {
+  const token = req.header("auth-token");
+  if (!token)
+    return res.status(401).send({
+      success: false,
+      message: "No token provided",
+    });
+
+  try {
+    const verified = jwt.verify(token, config.get("jwtSecret"));
+    req.user = verified;
+    next();
+  } catch (err) {
+    console.error(err);
+    return res.status(401).send({
+      success: false,
+      message: "Invalid token",
+    });
   }
 };
