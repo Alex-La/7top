@@ -9,6 +9,7 @@ const Footer = () => {
           <iframe
             width="560"
             height="315"
+            title="blockchain"
             src="https://www.youtube.com/embed/videoseries?list=UUOKAdrQ0sKR9H1hi88RmQkA "
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

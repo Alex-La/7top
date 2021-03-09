@@ -150,13 +150,15 @@ const AllGames = () => {
           <div className="video">
             <iframe
               src="https://www.youtube.com/embed/hx0HORJcpV0?rel=0"
-              allowFullScreen={true}
+              title="lottery"
+              allowFullScreen
             ></iframe>
           </div>
           <div className="banner-wrapper">
             <a
               href="https://ychanger.net/?R=16100409488763"
               target="_blank"
+              rel="noreferrer"
               style={{ textAlign: "center", justifyContent: "center" }}
             >
               <img src={Banner} alt="banner" style={{ maxWidth: 320 }} />

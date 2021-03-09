@@ -20,7 +20,7 @@ const Body = () => {
   useEffect(() => {
     if (hasMore && bottom && contract)
       dispatch(loadMoreOwners(contract, cursor));
-  }, [bottom, hasMore, dispatch, contract]);
+  }, [bottom, hasMore, dispatch, contract, cursor]);
 
   const handleScroll = useCallback((e) =>
     setBottom(

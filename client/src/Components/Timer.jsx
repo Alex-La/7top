@@ -14,7 +14,6 @@ const TimerGame = ({ time }) => {
         <Timer
           initialTime={time}
           direction="backward"
-          direction="backward"
           onReset={() => {
             console.log("onReset hook");
           }}
