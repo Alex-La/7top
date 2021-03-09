@@ -10,8 +10,6 @@ router.post("/upload", verifyToken, (req, res) => {
   }
 
   let uplFile = req.files.file;
-  console.log("req.body: ", req.body.userId);
-  console.log(uplFile);
   const extension = uplFile.name.split(".").pop();
   const imgPath = path.resolve(
     "avatars",
@@ -20,12 +18,10 @@ router.post("/upload", verifyToken, (req, res) => {
   );
   const folderPath = path.resolve("avatars", "");
   glob(folderPath + `/${req.body.userId}.*`, {}, (_, files) => {
-    console.log(files);
     if (files.length > 0) {
       try {
         for (const file of files) {
           fs.unlinkSync(file);
-          console.log("avatar deleted");
         }
       } catch (err) {
         console.error(err);
@@ -34,7 +30,6 @@ router.post("/upload", verifyToken, (req, res) => {
     }
     uplFile.mv(imgPath, (err) => {
       if (err) return res.status(500).send(err);
-      console.log("avatar uploaded");
       res.send("File uploaded!");
     });
   });

@@ -106,7 +106,6 @@ router.post(
   [check("password", "Insert password").exists()],
   async (req, res) => {
     try {
-      console.log("Body:", req.body);
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
@@ -140,7 +139,6 @@ router.post(
 router.get("/me", auth, async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.user.userId });
-    console.log(user);
     res.json({
       _id: user._id,
       name: user.name,
