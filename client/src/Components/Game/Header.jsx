@@ -22,7 +22,7 @@ const Header = ({ title, time, children }) => {
   return (
     <section>
       <div className="container">
-        <Account backBtn />
+        <Account backBtn showWallet winnerList />
         <p className="p2"></p>
         {time && <Timer time={time} />}
 

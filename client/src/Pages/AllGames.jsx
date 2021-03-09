@@ -41,7 +41,7 @@ const AllGames = () => {
 
   return (
     <div className="allgames">
-      <Account />
+      <Account showWallet winnerList />
       <section className="section1" id="section1">
         <div className="container">
           <div className="component">

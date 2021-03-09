@@ -1,3 +1,15 @@
+export const me = (state = null, action) => {
+  switch (action.type) {
+    case "ME":
+      return action.payload;
+    case "ME_ERROR":
+      localStorage.removeItem("token");
+      return null;
+    default:
+      return state;
+  }
+};
+
 export const allgames = (state = false, action) => {
   switch (action.type) {
     case "ALLGAMES_SUCCESS":

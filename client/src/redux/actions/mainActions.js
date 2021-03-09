@@ -1,3 +1,15 @@
+export const getMe = () => async (dispatch) => {
+  fetch("/api/auth/me", {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error(response.statusText);
+      return response.json();
+    })
+    .then((res) => dispatch({ type: "ME", payload: res }))
+    .catch(() => dispatch({ type: "ME_ERROR" }));
+};
+
 export const getAllgames = () => async (dispatch) => {
   dispatch({ type: "ALLGAMES_SUCCESS" });
   fetch("/api/tron/allgames")

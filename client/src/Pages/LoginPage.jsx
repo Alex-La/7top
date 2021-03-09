@@ -1,11 +1,26 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import useHttp from "../hooks/http.hook";
+import useMessage from "../hooks/message.hook";
 import "../css/login.css";
+import { useHistory } from "react-router-dom";
+
+import { useDispatch } from "react-redux";
+import { getMe } from "../redux/actions/mainActions";
 
 import Img1 from "../img/img1.png";
 import Logo from "../img/logo.png";
 
 const LoginPage = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const message = useMessage();
+
+  const { loading, request, error, clearError } = useHttp();
+  const [form, setForm] = useState({
+    name: "",
+    password: "",
+  });
+
   useEffect(() => {
     document.title = "Страница входа на сайт крипто лотереи SevenTop";
     document
@@ -16,10 +31,10 @@ const LoginPage = () => {
       );
   }, []);
 
-  const [form, setForm] = useState({
-    name: "",
-    password: "",
-  });
+  useEffect(() => {
+    message(error);
+    clearError();
+  }, [error, message, clearError]);
 
   useEffect(() => {
     window.M.updateTextFields();
@@ -27,6 +42,15 @@ const LoginPage = () => {
 
   const changeHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value });
+  };
+
+  const loginHandler = async () => {
+    try {
+      const data = await request("/api/auth/login", "POST", { ...form });
+      localStorage.setItem("token", data.token);
+      dispatch(getMe());
+      history.push("/allgames");
+    } catch (e) {}
   };
 
   return (
@@ -62,16 +86,16 @@ const LoginPage = () => {
               <button
                 type="submit"
                 className="btn"
-                //   onClick={loginHandler}
-                //   disabled={loading}
+                onClick={loginHandler}
+                disabled={loading}
               >
                 Login
               </button>
               <div className="register">
-                <NavLink to="/restore-password" className="forget">
+                <a href="/restore-password" className="forget">
                   Forget Password
-                </NavLink>
-                <NavLink to="/register">Create an account</NavLink>
+                </a>
+                <a href="/register">Create an account</a>
               </div>
             </form>
           </div>
