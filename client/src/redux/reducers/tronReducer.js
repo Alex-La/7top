@@ -18,19 +18,19 @@ export const balance = (state = 0, action) => {
   }
 };
 
-// export const ownersReducer = (
-//   state = { total: 0, cursor: null, hasMore: false, owners: [] },
-//   action
-// ) => {
-//   switch (action.type) {
-//     case "OWNERS":
-//       return action.payload;
-//     case "LOAD_MORE_OWNERS":
-//       return {
-//         ...action.payload,
-//         owners: [...state.owners, ...action.payload.owners],
-//       };
-//     default:
-//       return state;
-//   }
-// };
+export const owners = (
+  state = { total: 0, cursor: null, hasMore: false, owners: [] },
+  action
+) => {
+  switch (action.type) {
+    case "OWNERS":
+      return action.payload;
+    case "LOAD_MORE_OWNERS":
+      return {
+        ...action.payload,
+        owners: [...state.owners, ...action.payload.owners],
+      };
+    default:
+      return state;
+  }
+};
