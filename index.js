@@ -3,6 +3,7 @@ const config = require("config");
 const path = require("path");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const expressStaticGzip = require("express-static-gzip");
 const fileUpload = require("express-fileupload");
 const methodOverride = require("method-override");
 const Mongoose = require("mongoose");
@@ -35,7 +36,13 @@ app.use("/api/avatar", require("./routes/avatar"));
 
 app.use("/static/avatars", express.static(path.join(__dirname, "avatars")));
 if (process.env.NODE_ENV === "production") {
-  app.use("/", express.static(path.join(__dirname, "client", "build")));
+  app.use(
+    "/",
+    expressStaticGzip(path.join(__dirname, "client", "build"), {
+      enableBrotli: true,
+      orderPreference: ["br", "gz"],
+    })
+  );
   app.get("*", (_, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });

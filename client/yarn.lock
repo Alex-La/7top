@@ -2276,6 +2276,11 @@ anymatch@^3.0.3, anymatch@~3.1.1:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
+app-root-path@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/app-root-path/-/app-root-path-3.0.0.tgz#210b6f43873227e18a4b810a032283311555d5ad"
+  integrity sha512-qMcx+Gy2UZynHjOHOIXPNvpf+9cjvk3cWrBBK7zg4gH9+clobJRb9NGzcT7mQTcV/6Gm/1WelUtqxVXnNlrwcw==
+
 aproba@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
@@ -3351,6 +3356,13 @@ compose-function@3.0.3:
   integrity sha1-ntZ18TzFRQHTCVCkhv9qe6OrGF8=
   dependencies:
     arity-n "^1.0.4"
+
+compress-create-react-app@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/compress-create-react-app/-/compress-create-react-app-1.0.6.tgz#ba542c1bdc52b55032bddfcb227a07e809307dcb"
+  integrity sha512-JVDFefCj5oicO4ww2sqUdcQt2lsVmW5vY7osti+il4sSDcLoCEEw5eJ02x5JVjSI9Pn+rvWJmJtil1nQDA3scQ==
+  dependencies:
+    app-root-path "^3.0.0"
 
 compressible@~2.0.16:
   version "2.0.18"

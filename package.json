@@ -25,6 +25,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
+    "express-static-gzip": "^2.1.1",
     "express-validator": "^6.10.0",
     "glob": "^7.1.6",
     "jsonwebtoken": "^8.5.1",
