@@ -11,7 +11,7 @@ const useTronWeb = () => {
       if (!window.tronWeb.ready) throw new Error("Please, login TronLink");
       if (!me) throw new Error("Please, authorize");
       if (process.env.NODE_ENV === "production") {
-        if (window.tronWeb.fullNode.host !== "https://api.trongrid.io")
+        if (window.tronWeb.fullNode.host !== "https://api.shasta.trongrid.io")
           throw new Error("Please, change node to TronGrid");
       } else {
         if (window.tronWeb.fullNode.host !== "https://api.shasta.trongrid.io")
