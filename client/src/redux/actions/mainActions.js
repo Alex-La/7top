@@ -20,6 +20,17 @@ export const getUsers = () => async (dispatch) => {
   }
 };
 
+export const getAllGames = () => async (dispatch) => {
+  dispatch({ type: "ALL_GAMES_PANDING" });
+  fetch("/api/tron/allgames")
+    .then((response) => {
+      if (!response.ok) throw new Error(response.statusText);
+      return response.json();
+    })
+    .then((res) => dispatch({ type: "ALLGAMES", payload: res }))
+    .catch(() => dispatch({ type: "ALL_GAMES_PANDING" }));
+};
+
 export const loadMoreUsers = (after) => async (dispatch) => {
   try {
     dispatch({ type: "USERS_LOADING" });

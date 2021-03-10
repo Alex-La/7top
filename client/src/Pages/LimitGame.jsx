@@ -5,7 +5,6 @@ import "../css/game.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setCurrentContract,
-  getBalance,
   getOwners,
   getWinners,
 } from "../redux/actions/tronActions";

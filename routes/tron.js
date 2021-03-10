@@ -53,26 +53,26 @@ const addresses = {
   }
 })();
 
-// router.get("/allgames", async (_, res) => {
-//   try {
-//     const data = [];
-//     for (const [_, value] of Object.entries(games)) {
-//       const obj = {
-//         sum: Math.floor(
-//           tronweb.toDecimal((await value.getSumOnContract().call())._hex) / 1e12
-//         ),
-//         ticketsLength: tronweb.toDecimal(
-//           (await value.getTicketsLength().call())._hex
-//         ),
-//       };
-//       data.push(obj);
-//     }
-//     res.json([...data, { weekTime, monthTime, yearTime }]);
-//   } catch (e) {
-//     console.log(e);
-//     res.status(500).json({ message: "Server error!" });
-//   }
-// });
+router.get("/allgames", async (_, res) => {
+  try {
+    const data = [];
+    for (const [_, value] of Object.entries(games)) {
+      const obj = {
+        sum: Math.floor(
+          tronweb.toDecimal((await value.getSumOnContract().call())._hex) / 1e12
+        ),
+        ticketsLength: tronweb.toDecimal(
+          (await value.getTicketsLength().call())._hex
+        ),
+      };
+      data.push(obj);
+    }
+    res.json(data);
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "Server error!" });
+  }
+});
 
 router.get("/owners/:contract", async (req, res) => {
   try {

@@ -10,6 +10,17 @@ export const me = (state = null, action) => {
   }
 };
 
+export const allgames = (state = null, action) => {
+  switch (action.type) {
+    case "ALLGAMES":
+      return action.payload;
+    case "ALL_GAMES_PANDING":
+      return state;
+    default:
+      return state;
+  }
+};
+
 const usersState = {
   allUsersLength: undefined,
   cursor: 0,
