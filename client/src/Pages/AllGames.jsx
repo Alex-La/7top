@@ -2,11 +2,9 @@ import { useEffect, useState, useCallback } from "react";
 import "../css/allgames.css";
 
 import useHttp from "../hooks/http.hook";
-import { useSelector, useDispatch } from "react-redux";
 
 import { NavLink } from "react-router-dom";
 
-import Preloader from "../Components/Preloader";
 import Chelovek from "../img/chelovek.png";
 import Men2 from "../img/men2.png";
 import Day2 from "../img/day2.png";

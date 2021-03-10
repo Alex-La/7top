@@ -3,10 +3,9 @@ import Slider from "react-slick";
 import "../css/game.css";
 
 import useHttp from "../hooks/http.hook";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setCurrentContract } from "../redux/actions/tronActions";
 
-import Preloader from "../Components/Preloader";
 import Game from "../Components/Game/Game";
 
 const OneMonth = () => {
