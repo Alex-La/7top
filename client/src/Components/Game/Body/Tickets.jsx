@@ -24,9 +24,10 @@ const Tickets = () => {
   const { buyTicket, error, clearError } = useTronWeb();
   const dispatch = useDispatch();
   const [myTickets, setMyTickets] = useState([]);
-  const { contract, me } = useSelector(({ contract, me }) => ({
+  const { contract, me, owners } = useSelector(({ contract, me, owners }) => ({
     contract,
     me,
+    owners,
   }));
 
   const getMyTickets = useCallback(async () => {
@@ -57,6 +58,7 @@ const Tickets = () => {
     if (error === "Success!") {
       dispatch(buyAction({ me }));
       dispatch(getBalance({ contract }));
+      setMyTickets([owners.total, ...myTickets]);
     }
     message(error);
     clearError();
