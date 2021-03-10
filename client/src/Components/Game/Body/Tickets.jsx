@@ -2,7 +2,7 @@ import { Fragment, useEffect } from "react";
 import Ticket from "../../../img/ticket.png";
 
 import { useSelector, useDispatch } from "react-redux";
-import { getBalance } from "../../../redux/actions/tronActions";
+import { getBalance, buyAction } from "../../../redux/actions/tronActions";
 
 import useTronWeb from "../../../hooks/tronweb.hook";
 import useMessage from "../../../hooks/message.hook";
@@ -28,7 +28,7 @@ const Tickets = () => {
 
   useEffect(() => {
     if (error === "Success!") {
-      dispatch({ type: "BUY", payload: { avatar: me.avatar, name: me.name } });
+      dispatch(buyAction({ me }));
       dispatch(getBalance({ contract }));
     }
     message(error);

@@ -3,6 +3,11 @@ export const setCurrentContract = ({ contract }) => ({
   payload: contract,
 });
 
+export const buyAction = ({ me }) => ({
+  type: "BUY",
+  payload: { avatar: me.avatar, name: me.name },
+});
+
 export const getBalance = ({ contract }) => async (dispatch) => {
   fetch(`/api/tron/balance/${contract}`)
     .then((response) => {
