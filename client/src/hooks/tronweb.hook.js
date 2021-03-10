@@ -22,15 +22,16 @@ const useTronWeb = () => {
   const buyTicket = useCallback(
     async (address) => {
       checkError();
-      const lottery = await window.tronWeb.contract().at(address);
-      await lottery.buyTicket().send({
-        feeLimit: 30_000_000,
-        callValue: await lottery.calculateTrx(1).call(),
-      });
-      setError("Success!");
       try {
+        const lottery = await window.tronWeb.contract().at(address);
+        await lottery.buyTicket().send({
+          feeLimit: 30_000_000,
+          callValue: await lottery.calculateTrx(1).call(),
+        });
+        setError("Success!");
       } catch (e) {
-        setError(e.message);
+        console.log(e);
+        setError(e);
       }
     },
     [checkError]
