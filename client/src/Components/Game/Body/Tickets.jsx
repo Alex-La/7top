@@ -1,12 +1,39 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import Ticket from "../../../img/ticket.png";
 
+import { useSelector } from "react-redux";
+
+import useTronWeb from "../../../hooks/tronweb.hook";
+import useMessage from "../../../hooks/message.hook";
+
+const games = {
+  LimitLottery5: "TRGCoM8ForcJhHXCE3RsWouF14V3rPixSu",
+  LimitLottery15: "TArRpQXzAutbdn3rZfPmMQzHx2rn4uRGy5",
+  LimitLottery50: "TSmijEjGX7F2MY9nUJbaiB1xqgVbN7bYvX",
+  Everyweek5: "TYk1bmKpaASD8MHLXr6QipNYdtUAAHno4f",
+  Everyweek50: "TKF9zmQpKHPgA9FxuSVHpogiucTGVRHBWN",
+  Month5: "TVGniJKSx13v74zfwZL16pjvGUVf4xQynD",
+  EveryYear5: "TBcYVCEM5Y2dXVGg7ojTyN6pHeuWnRThBf",
+};
+
 const Tickets = () => {
-  const buyTicket = () => console.log("Buy ticket");
+  const message = useMessage();
+  const { buyTicket, error, clearError } = useTronWeb();
+  const contract = useSelector(({ contract }) => contract);
+
+  useEffect(() => {
+    if (error === "Success!") {
+      console.log(error);
+    }
+    message(error);
+    clearError();
+  }, [error, clearError, message]);
+
+  const buy = () => buyTicket(games[contract]);
 
   return (
     <Fragment>
-      <a onClick={buyTicket}>
+      <a onClick={buy}>
         <div className="btn">BUY</div>
       </a>
 
