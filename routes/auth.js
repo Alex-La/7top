@@ -4,9 +4,135 @@ const jwt = require("jsonwebtoken");
 const { check, validationResult } = require("express-validator");
 const User = require("../models/User");
 const config = require("config");
+const tronWeb = require("tronweb");
+const mongoose = require("mongoose");
+const imgGen = require("js-image-generator");
+const fs = require("fs");
+const path = require("path");
 const sendMail = require("../middleware/sendMail");
 const auth = require("../middleware/auth");
-const { getAvatarPath } = require("../utils");
+
+router.post(
+  "/register",
+  [
+    check("email", "Incorrect email").isEmail(),
+    check("password", "Min length of password is 6 symbols").isLength({
+      min: 6,
+    }),
+  ],
+  async (req, res) => {
+    const { name, email, password, wallet, friendId } = req.body;
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const user = new User({
+      name,
+      email,
+      password: hashedPassword,
+      wallet,
+      friendId,
+    });
+    await user.save();
+    imgGen.generateImage(800, 800, 80, (_, image) => {
+      fs.writeFileSync(
+        path.join(__dirname, "../client/src/avatars/") + user._id + ".jpg",
+        image.data
+      );
+    });
+
+    res.status(201).json({ message: "User created!" });
+  }
+);
+
+router.post(
+  "/register/valid",
+  [
+    check("email", "Incorrect email").isEmail(),
+    check("password", "Min length of password is 6 symbols").isLength({
+      min: 6,
+    }),
+  ],
+  async (req, res) => {
+    try {
+      console.log("Body", req.body);
+      const errors = validationResult(req);
+      let _friendId = "";
+
+      if (!errors.isEmpty()) {
+        console.log(errors.array());
+        return res.status(400).json({
+          errors: errors.array(),
+          message: errors.array()[0].msg,
+        });
+      }
+
+      const {
+        name,
+        email,
+        password,
+        wallet,
+        friendId,
+        macthPassword,
+      } = req.body;
+
+      let candidate = await User.findOne({ name });
+      if (candidate)
+        return res.status(400).json({ message: "This user is alredy exist" });
+
+      candidate = await User.findOne({ email });
+      if (candidate)
+        return res.status(400).json({ message: "This email is already exist" });
+
+      if (macthPassword !== password)
+        return res.status(400).json({ message: "Password do not match" });
+
+      if (!tronWeb.isAddress(wallet))
+        return res.status(400).json({ message: "Address is not valid" });
+
+      candidate = await User.findOne({ wallet });
+      if (candidate)
+        return res
+          .status(400)
+          .json({ message: "This wallet is already exist" });
+
+      if (friendId != "") {
+        let friend = await User.findOne({ wallet: friendId });
+        let friend2 = await User.findOne({ name: friendId });
+        let friend3;
+
+        if (!friend && !friend2) {
+          if (mongoose.Types.ObjectId.isValid(friendId)) {
+            friend3 = await User.findOne({ _id: friendId });
+          } else {
+            return res
+              .status(400)
+              .json({ message: "This friend is not exist in system" });
+          }
+          if (!friend3) {
+            return res
+              .status(400)
+              .json({ message: "this friend is not exist in system" });
+          }
+        } else {
+          if (wallet === friendId || name === friendId) {
+            return res
+              .status(400)
+              .json({ message: "You can't put your data in Friend ID" });
+          }
+        }
+        _friendId = friend
+          ? friend.wallet
+          : friend2
+          ? friend2.wallet
+          : friend3.wallet;
+      }
+
+      res.status(201).json({ message: "User is valid!", friendId: _friendId });
+    } catch (e) {
+      console.log(e);
+      res.status(500).json({ message: "Something went wrong, try again" });
+    }
+  }
+);
 
 router.post(
   "/restore-password",

@@ -75,7 +75,8 @@ const Tickets = () => {
       <div className="ticket-title">
         <img src={Ticket} alt="ticket" />
         <p className="p7">
-          My tickets <span style={{ color: "#3897f1" }}>{" " + 4}</span>
+          My tickets{" "}
+          <span style={{ color: "#3897f1" }}>{" " + myTickets.length}</span>
         </p>
       </div>
 

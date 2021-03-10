@@ -28,6 +28,7 @@
     "express-static-gzip": "^2.1.1",
     "express-validator": "^6.10.0",
     "glob": "^7.1.6",
+    "js-image-generator": "^1.0.3",
     "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
     "mongoose": "^5.11.19",

@@ -1,12 +1,28 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import useHttp from "../hooks/http.hook";
+import useMessage from "../hooks/message.hook";
+import { NavLink, useHistory } from "react-router-dom";
 import "../css/register.css";
 
-import { NavLink, useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getMe } from "../redux/actions/mainActions";
 
 import Img1 from "../img/img1.png";
 import Logo from "../img/logo.png";
 
 const AuthPage = () => {
+  const history = useHistory();
+  const message = useMessage();
+  const dispatch = useDispatch();
+  const { loading, request, error, clearError } = useHttp();
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    wallet: "",
+    friendId: "",
+  });
+
   useEffect(() => {
     document.title =
       "Зарегистрируйся на сайте 7top.org для участия в лотереи. Выиграть джекпот может каждый";
@@ -18,15 +34,10 @@ const AuthPage = () => {
       );
   }, []);
 
-  const history = useHistory();
-
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-    wallet: "",
-    friendId: "",
-  });
+  useEffect(() => {
+    message(error);
+    clearError();
+  }, [error, message, clearError]);
 
   useEffect(() => {
     window.M.updateTextFields();
@@ -34,6 +45,56 @@ const AuthPage = () => {
 
   const changeHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value });
+  };
+
+  const registerHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const RefStorage = await window.tronWeb
+        .contract()
+        .at("TA2kGcLfZJhW8Mf6nBEjAQL2HLS8KwToE6");
+      const data = await request("/api/auth/register/valid", "POST", {
+        ...form,
+      });
+      message(data.message);
+
+      if (data.message === "User is valid!") {
+        try {
+          if (data.friendId.length !== 0) {
+            await RefStorage.addReferer(data.friendId).send();
+          } else {
+            await RefStorage.regNewUser().send();
+          }
+        } catch (e) {
+          if (e.error === "CONTRACT_VALIDATE_ERROR") return message(e.message);
+          return message(e);
+        }
+      }
+
+      let name = "";
+      if (form.name[form.name.length - 1] === " ") {
+        name = form.name.substring(0, form.name.length - 1);
+      } else {
+        name = form.name;
+      }
+
+      const result = await request("/api/auth/register", "POST", {
+        ...form,
+        name,
+      });
+      message(result.message);
+      console.log("Data", result);
+      await loginHandler();
+    } catch (e) {}
+  };
+
+  const loginHandler = async () => {
+    try {
+      const data = await request("api/auth/login", "POST", { ...form });
+      localStorage.setItem("token", data.token);
+      dispatch(getMe());
+      history.push("/allgames");
+    } catch (e) {}
   };
 
   return (
@@ -113,8 +174,8 @@ const AuthPage = () => {
               <button
                 type="submit"
                 className="btn"
-                //   onClick={registerHandler}
-                //   disabled={loading}
+                onClick={registerHandler}
+                disabled={loading}
               >
                 Sign in
               </button>
