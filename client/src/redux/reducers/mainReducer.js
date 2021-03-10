@@ -16,6 +16,8 @@ export const allgames = (state = false, action) => {
       return false;
     case "ALLGAMES":
       return action.payload;
+    case "BUY":
+      return false;
     default:
       return state;
   }
