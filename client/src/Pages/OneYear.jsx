@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "../css/game.css";
 
+import useHttp from "../hooks/http.hook";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllgames } from "../redux/actions/mainActions";
 import { setCurrentContract } from "../redux/actions/tronActions";
 
 import Preloader from "../Components/Preloader";
@@ -21,8 +21,9 @@ const OneYear = () => {
       );
   }, []);
 
-  const allgames = useSelector(({ allgames }) => allgames);
+  const { request } = useHttp();
   const dispatch = useDispatch();
+  const [time, setTime] = useState(0);
 
   useEffect(() => {
     dispatch(setCurrentContract({ contract: "EveryYear5" }));
@@ -30,8 +31,11 @@ const OneYear = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (!allgames) dispatch(getAllgames());
-  }, [allgames, dispatch]);
+    (async () => {
+      const data = await request("/api/main/time/yearTime");
+      setTime(data.time);
+    })();
+  }, [request]);
 
   const arrayOfSlides = [{ value: "5 $" }];
   const setting = {
@@ -44,11 +48,9 @@ const OneYear = () => {
     },
   };
 
-  if (!allgames) return <Preloader />;
-
   return (
     <div className="row game">
-      <Game title="Every 10 people" time={allgames[7].yearTime}>
+      <Game title="Every 10 people" time={time}>
         <Slider {...setting}>
           {arrayOfSlides.map((item, index) => (
             <div className="item" key={index}>

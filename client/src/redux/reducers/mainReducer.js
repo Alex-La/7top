@@ -10,19 +10,6 @@ export const me = (state = null, action) => {
   }
 };
 
-export const allgames = (state = false, action) => {
-  switch (action.type) {
-    case "ALLGAMES_SUCCESS":
-      return false;
-    case "ALLGAMES":
-      return action.payload;
-    case "BUY":
-      return false;
-    default:
-      return state;
-  }
-};
-
 const usersState = {
   allUsersLength: undefined,
   cursor: 0,

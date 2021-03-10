@@ -1,8 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import "../css/allgames.css";
 
+import useHttp from "../hooks/http.hook";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllgames } from "../redux/actions/mainActions";
 
 import { NavLink } from "react-router-dom";
 
@@ -30,14 +30,24 @@ const AllGames = () => {
       );
   }, []);
 
-  const allgames = useSelector(({ allgames }) => allgames);
-  const dispath = useDispatch();
+  const { request } = useHttp();
+  const [time, setTime] = useState({
+    weekTime: 0,
+    monthTime: 0,
+    yearTime: 0,
+  });
 
   useEffect(() => {
-    if (!allgames) dispath(getAllgames());
-  }, [dispath, allgames]);
+    (async () => {
+      const time = await request("/api/main/time");
+      setTime(time);
+    })();
+  }, [request]);
 
-  if (!allgames) return <Preloader />;
+  const Timer = useCallback(
+    ({ time }) => <AllGamesTimer initialTime={time} />,
+    [time]
+  );
 
   return (
     <div className="allgames">
@@ -54,15 +64,13 @@ const AllGames = () => {
               </div>
               <NavLink to="/limitGame">
                 <div className="btn">
-                  <p className="p3">
-                    PLAY {allgames[0].sum + allgames[1].sum + allgames[2].sum}$
-                  </p>
+                  <p className="p3">PLAY {1}$</p>
                 </div>
               </NavLink>
               <div className="title2">
                 <div className="top">
                   <img src={Men2} alt="men" />
-                  <p className="p4">{allgames[0].ticketsLength}</p>
+                  <p className="p4">{1}</p>
                 </div>
                 <p className="p5">Human</p>
               </div>
@@ -70,7 +78,7 @@ const AllGames = () => {
           </div>
           <div className="comp2">
             <div className="timer">
-              <AllGamesTimer initialTime={allgames[7].monthTime} />
+              <Timer time={time.weekTime} />
             </div>
             <div className="blok2">
               <div className="title3">
@@ -79,23 +87,21 @@ const AllGames = () => {
               </div>
               <NavLink to="/oneWeek">
                 <div className="btn">
-                  <p className="p3">
-                    PLAY {allgames[3].sum + allgames[4].sum}$
-                  </p>
+                  <p className="p3">PLAY {1}$</p>
                 </div>
               </NavLink>
             </div>
             <div className="title2">
               <div className="top">
                 <img src={Men2} alt="men" />
-                <p className="p4">{allgames[3].ticketsLength}</p>
+                <p className="p4">{1}</p>
               </div>
               <p className="p5">Human</p>
             </div>
           </div>
           <div className="comp2">
             <div className="timer">
-              <AllGamesTimer initialTime={allgames[7].weekTime} />
+              <Timer time={time.monthTime} />
             </div>
             <div className="blok2">
               <div className="title3">
@@ -104,14 +110,14 @@ const AllGames = () => {
               </div>
               <NavLink to="/oneMonth">
                 <div className="btn">
-                  <p className="p3">PLAY {allgames[5].sum}$</p>
+                  <p className="p3">PLAY {1}$</p>
                 </div>
               </NavLink>
             </div>
             <div className="title2">
               <div className="top">
                 <img src={Men2} alt="men" />
-                <p className="p4">{allgames[5].ticketsLength}</p>
+                <p className="p4">{1}</p>
               </div>
               <p className="p5">Human</p>
             </div>
@@ -123,7 +129,7 @@ const AllGames = () => {
                 <p className="p6">Every year</p>
               </div>
               <div className="timer">
-                <AllGamesTimer initialTime={allgames[7].yearTime} />
+                <Timer time={time.yearTime} />
               </div>
             </div>
             <div className="blok3">
@@ -133,12 +139,12 @@ const AllGames = () => {
                 <p className="p5 p5_">Human</p>
                 <div className="top">
                   <img className="men_" src={Men2} alt="men" />
-                  <p className="p4">{allgames[6].ticketsLength}</p>
+                  <p className="p4">{1}</p>
                 </div>
               </div>
               <NavLink to="/oneYear">
                 <div className="btn btn-2">
-                  <p className="p3">PLAY {allgames[6].sum}$</p>
+                  <p className="p3">PLAY {1}$</p>
                 </div>
               </NavLink>
             </div>

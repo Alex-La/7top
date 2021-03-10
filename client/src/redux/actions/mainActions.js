@@ -10,17 +10,6 @@ export const getMe = () => async (dispatch) => {
     .catch(() => dispatch({ type: "ME_ERROR" }));
 };
 
-export const getAllgames = () => async (dispatch) => {
-  dispatch({ type: "ALLGAMES_SUCCESS" });
-  fetch("/api/tron/allgames")
-    .then((response) => {
-      if (!response.ok) throw new Error(response.statusText);
-      return response.json();
-    })
-    .then((res) => dispatch({ type: "ALLGAMES", payload: res }))
-    .catch(() => dispatch({ type: "ALLGAMES_SUCCESS" }));
-};
-
 export const getUsers = () => async (dispatch) => {
   try {
     dispatch({ type: "USERS_SUCCESS" });
