@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import Ticket from "../../../img/ticket.png";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -6,6 +6,8 @@ import { getBalance, buyAction } from "../../../redux/actions/tronActions";
 
 import useTronWeb from "../../../hooks/tronweb.hook";
 import useMessage from "../../../hooks/message.hook";
+
+import Ticketimg from "../../../img/Ticketimg.png";
 
 const games = {
   LimitLottery5: "TRGCoM8ForcJhHXCE3RsWouF14V3rPixSu",
@@ -21,10 +23,35 @@ const Tickets = () => {
   const message = useMessage();
   const { buyTicket, error, clearError } = useTronWeb();
   const dispatch = useDispatch();
+  const [myTickets, setMyTickets] = useState([]);
   const { contract, me } = useSelector(({ contract, me }) => ({
     contract,
     me,
   }));
+
+  const getMyTickets = useCallback(async () => {
+    if (window.tronWeb && window.tronWeb.ready && me) {
+      const lottery = await window.tronWeb.contract().at(games[contract]);
+      const ticks = await lottery.getMyTickets(me.wallet).call();
+      const arrayOfTicks = [];
+      for (let i in ticks) {
+        arrayOfTicks.push(window.tronWeb.toDecimal(ticks[i]._hex));
+      }
+      setMyTickets(arrayOfTicks);
+    }
+  }, [me, contract]);
+
+  useEffect(() => {
+    let tries = 0;
+    const inter = setInterval(() => {
+      if (window.tronWeb) {
+        clearInterval(inter);
+        getMyTickets();
+      } else tries++;
+
+      if (tries === 10) clearInterval(inter);
+    }, 1000);
+  }, [getMyTickets]);
 
   useEffect(() => {
     if (error === "Success!") {
@@ -33,7 +60,7 @@ const Tickets = () => {
     }
     message(error);
     clearError();
-  }, [error, clearError, message]);
+  }, [error, clearError, message, dispatch, getMyTickets, me, contract]);
 
   const buy = () => buyTicket(games[contract]);
 
@@ -51,21 +78,14 @@ const Tickets = () => {
       </div>
 
       <div className="tickets_">
-        {/* {myTickets
-                  ? myTickets.map((item, index) => (
-                      <div key={index}>
-                        <p className="p8">№ {item - 1}</p>
-                        <p className="p9">
-                          <img
-                            src={Ticketimg}
-                            alt="ticketimg"
-                            width={60}
-                            height={60}
-                          />{" "}
-                        </p>
-                      </div>
-                    ))
-                  : ""} */}
+        {myTickets.map((item, index) => (
+          <div key={index}>
+            <p className="p8">№ {item}</p>
+            <p className="p9">
+              <img src={Ticketimg} alt="ticketimg" width={60} height={60} />{" "}
+            </p>
+          </div>
+        ))}
       </div>
       <hr />
     </Fragment>
