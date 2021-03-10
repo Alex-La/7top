@@ -1,7 +1,8 @@
 import { Fragment, useEffect } from "react";
 import Ticket from "../../../img/ticket.png";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getBalance } from "../../../redux/actions/tronActions";
 
 import useTronWeb from "../../../hooks/tronweb.hook";
 import useMessage from "../../../hooks/message.hook";
@@ -19,11 +20,16 @@ const games = {
 const Tickets = () => {
   const message = useMessage();
   const { buyTicket, error, clearError } = useTronWeb();
-  const contract = useSelector(({ contract }) => contract);
+  const dispatch = useDispatch();
+  const { contract, me } = useSelector(({ contract, me }) => ({
+    contract,
+    me,
+  }));
 
   useEffect(() => {
     if (error === "Success!") {
-      console.log(error);
+      dispatch({ type: "BUY", payload: { avatar: me.avatar, name: me.name } });
+      dispatch(getBalance({ contract }));
     }
     message(error);
     clearError();

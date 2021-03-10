@@ -1,12 +1,15 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
+import { useSelector } from "react-redux";
 
 const useTronWeb = () => {
   const [error, setError] = useState(null);
+  const me = useSelector(({ me }) => me);
 
   const checkError = useCallback(() => {
     try {
       if (!window.tronWeb) throw new Error("Please, install TronLink!");
       if (!window.tronWeb.ready) throw new Error("Please, login TronLink");
+      if (!me) throw new Error("Please, authorize");
       if (process.env.NODE_ENV === "production") {
         if (window.tronWeb.fullNode.host !== "https://api.trongrid.io")
           throw new Error("Please, change node to TronGrid");
@@ -14,15 +17,17 @@ const useTronWeb = () => {
         if (window.tronWeb.fullNode.host !== "https://api.shasta.trongrid.io")
           throw new Error("Please, change node to Shasta TronGrid");
       }
+      return false;
     } catch (e) {
       setError(e.message);
+      return true;
     }
-  }, []);
+  }, [me]);
 
   const buyTicket = useCallback(
     async (address) => {
-      checkError();
       try {
+        if (checkError()) return;
         const lottery = await window.tronWeb.contract().at(address);
         await lottery.buyTicket().send({
           feeLimit: 30_000_000,

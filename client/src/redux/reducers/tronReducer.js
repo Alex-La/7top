@@ -30,6 +30,18 @@ export const owners = (
         ...action.payload,
         owners: [...state.owners, ...action.payload.owners],
       };
+    case "BUY":
+      return {
+        ...state,
+        total: state.total + 1,
+        owners:
+          state.total === state.owners.length
+            ? [
+                ...state.owners,
+                { ...action.payload, cursorKey: state.owners.length },
+              ]
+            : state.owners,
+      };
     default:
       return state;
   }
