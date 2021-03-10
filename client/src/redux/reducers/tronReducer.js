@@ -24,6 +24,7 @@ export const owners = (
 ) => {
   switch (action.type) {
     case "OWNERS":
+      console.log("OWNERS");
       return action.payload;
     case "LOAD_MORE_OWNERS":
       return {

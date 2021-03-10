@@ -2,8 +2,13 @@ import { useEffect } from "react";
 import Slider from "react-slick";
 import "../css/game.css";
 
-import { useDispatch } from "react-redux";
-import { setCurrentContract } from "../redux/actions/tronActions";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setCurrentContract,
+  getBalance,
+  getOwners,
+  getWinners,
+} from "../redux/actions/tronActions";
 
 import Game from "../Components/Game/Game";
 
@@ -19,12 +24,23 @@ const LimitGame = () => {
       );
   }, []);
 
+  const { contract, owners } = useSelector(({ contract, owners }) => ({
+    contract,
+    owners,
+  }));
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(setCurrentContract({ contract: "LimitLottery5" }));
     return () => dispatch(setCurrentContract({ contract: null }));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (owners.total === 10) {
+      dispatch(getOwners(contract));
+      dispatch(getWinners(contract));
+    }
+  }, [contract, owners, dispatch]);
 
   const arrayOfSlides = [
     { value: "5 $" },
