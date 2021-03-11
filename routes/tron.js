@@ -177,7 +177,7 @@ router.get("/winners/:contract", async (req, res) => {
   }
 });
 
-router.get("/friends/:wallet/:after", async (req, res) => {
+router.get("/friends/:wallet", async (req, res) => {
   try {
     const wallets = (
       await (await addresses.RefStorage).getReferals(req.params.wallet).call()
