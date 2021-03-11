@@ -8,6 +8,7 @@ const AuthPage = lazy(() => import("../Pages/AuthPage"));
 const LoginPage = lazy(() => import("../Pages/LoginPage"));
 const RestorePassword = lazy(() => import("../Pages/RestorePassword"));
 const NewPassword = lazy(() => import("../Pages/NewPassword"));
+const Friends = lazy(() => import("../Pages/Friends"));
 const People = lazy(() => import("../Pages/People"));
 const Winners = lazy(() => import("../Pages/Winners"));
 const LimitGame = lazy(() => import("../Pages/LimitGame"));
@@ -24,6 +25,7 @@ const Routes = () => {
         <Route path="/login" component={LoginPage} />
         <Route path="/new-password/:token" component={NewPassword} />
         <Route path="/restore-password" component={RestorePassword} />
+        <Route path="/friends" component={Friends} />
         <Route path="/people" component={People} />
         <Route path="/winners" component={Winners} />
         <Route path="/limitGame" component={LimitGame} />
