@@ -72,3 +72,29 @@ const fetchFriends = async (wallet, after = -1) => {
   if (!response.ok) throw new Error(response.statusText);
   return response.json();
 };
+
+export const getAllWinners = () => async (dispatch) => {
+  try {
+    dispatch({ type: "ALL_WINNERS_SUCCESS" });
+    const res = await fetchAllWinners();
+    dispatch({ type: "ALL_WINNERS", payload: res });
+  } catch (e) {
+    dispatch({ type: "ALL_WINNERS_SUCCESS" });
+  }
+};
+
+export const loadMoreAllWinners = (after) => async (dispatch) => {
+  try {
+    dispatch({ type: "ALL_WINNERS_LOADING" });
+    const res = await fetchAllWinners(after);
+    dispatch({ type: "LOAD_MORE_ALL_WINNERS", payload: res });
+  } catch (e) {
+    dispatch({ type: "ALL_WINNERS_SUCCESS" });
+  }
+};
+
+const fetchAllWinners = async (after = -1) => {
+  const response = await fetch(`/api/tron/winners?after=${after}`);
+  if (!response.ok) throw new Error(response.statusText);
+  return response.json();
+};

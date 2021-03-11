@@ -76,3 +76,31 @@ export const friends = (state = friendsState, action) => {
       return state;
   }
 };
+
+const allWinnersState = {
+  total: undefined,
+  cursor: 0,
+  hasMore: false,
+  allWinners: [],
+  loading: false,
+  success: false,
+};
+export const allWinners = (state = allWinnersState, action) => {
+  switch (action.type) {
+    case "ALL_WINNERS_SUCCESS":
+      return { ...state, success: false };
+    case "ALL_WINNERS":
+      return { ...action.payload, success: true, loading: false };
+    case "ALL_WINNERS_LOADING":
+      return { ...state, loading: true };
+    case "LOAD_MORE_ALL_WINNERS":
+      return {
+        ...action.payload,
+        loading: false,
+        success: true,
+        allWinners: [...state.allWinners, ...action.payload.allWinners],
+      };
+    default:
+      return state;
+  }
+};
