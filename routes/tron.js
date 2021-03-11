@@ -236,7 +236,8 @@ router.get("/winners", async (req, res) => {
       }
     }
 
-    const result = data.map(({ result }) => ({
+    const result = data.map(({ event_name, result }) => ({
+      event_name,
       amount: ((result.amount * trxPrice) / 1e12).toFixed(2),
       timestapmt: result.timestapmt,
       user: tronweb.address.fromHex(result.user),
@@ -248,7 +249,9 @@ router.get("/winners", async (req, res) => {
     const results = result.map((res) => ({
       ...res,
       user: ((user) => ({
-        name: user ? user.name : res.user,
+        name: user
+          ? user.name
+          : res.user.substr(0, 6) + "..." + res.user.substr(30, 40),
         avatar: getAvatarPath({ id: user ? user._id : "noavatar" }),
       }))(users.find(({ wallet }) => wallet === res.user)),
     }));
