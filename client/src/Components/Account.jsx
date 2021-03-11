@@ -3,7 +3,7 @@ import styles from "../css/account.module.css";
 
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers } from "../redux/actions/mainActions";
+import { getUsers, getFriends } from "../redux/actions/mainActions";
 
 import Left from "../img/left.png";
 import Place1 from "../img/place1.png";
@@ -12,12 +12,17 @@ import { ImageUpload } from "./Upload";
 
 const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
   const allUsersLength = useSelector(({ users }) => users.allUsersLength);
+  const total = useSelector(({ friends }) => friends.total);
   const me = useSelector(({ me }) => me);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!allUsersLength) dispatch(getUsers());
   }, [dispatch, allUsersLength]);
+
+  useEffect(() => {
+    if (me && !allUsersLength) dispatch(getFriends(me.wallet));
+  }, [me]);
 
   const logoutHandler = () => localStorage.removeItem("token");
 
@@ -72,7 +77,7 @@ const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
         <div className={styles.info}>
           <div className={styles.links}>
             {/* <NavLink to="/friends">1 My friends</NavLink> */}
-            {me && <NavLink to="/friends">{1} My friends</NavLink>}
+            {me && <NavLink to="/friends">{total} My friends</NavLink>}
             <NavLink to="/people">{allUsersLength} All</NavLink>
             {showWallet && me ? (
               <a>
