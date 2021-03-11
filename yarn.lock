@@ -1410,18 +1410,6 @@ isexe@^2.0.0:
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
   integrity sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=
 
-jpeg-js@^0.4.2:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/jpeg-js/-/jpeg-js-0.4.3.tgz#6158e09f1983ad773813704be80680550eff977b"
-  integrity sha512-ru1HWKek8octvUHFHvE5ZzQ1yAsJmIvRdGWvSoKV52XKyuyYA437QWDttXT8eZXDSbuMpHlLzPDZUPd6idIz+Q==
-
-js-image-generator@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/js-image-generator/-/js-image-generator-1.0.3.tgz#91767ceb5fa6e2ac34fe3f6de3b200748ce8d7fc"
-  integrity sha512-fKTAa415UqRxnEHXk4lM2q37t5vqboUFiFC+o0sPjFCl+EydaE952wuF9etbLd8txuMzray7zpiGv+iyYfZ1aA==
-  dependencies:
-    jpeg-js "^0.4.2"
-
 js-sha3@0.5.7:
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/js-sha3/-/js-sha3-0.5.7.tgz#0d4ffd8002d5333aabaf4a23eed2f6374c9f28e7"

@@ -6,9 +6,6 @@ const User = require("../models/User");
 const config = require("config");
 const tronWeb = require("tronweb");
 const mongoose = require("mongoose");
-const imgGen = require("js-image-generator");
-const fs = require("fs");
-const path = require("path");
 const sendMail = require("../middleware/sendMail");
 const auth = require("../middleware/auth");
 const { getAvatarPath } = require("../utils");
@@ -33,12 +30,6 @@ router.post(
       friendId,
     });
     await user.save();
-    imgGen.generateImage(800, 800, 80, (_, image) => {
-      fs.writeFileSync(
-        path.join(__dirname, "../client/src/avatars/") + user._id + ".jpg",
-        image.data
-      );
-    });
 
     res.status(201).json({ message: "User created!" });
   }

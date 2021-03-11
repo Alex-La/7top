@@ -177,6 +177,28 @@ router.get("/winners/:contract", async (req, res) => {
   }
 });
 
+router.get("/friends/:wallet", async (req, res) => {
+  try {
+    const wallets = (
+      await (await addresses.RefStorage).getReferals(req.params.wallet).call()
+    ).map((wallet) => tronweb.address.fromHex(wallet));
+
+    const friends = [];
+    for (let i in wallets) {
+      const user = await User.findOne({ wallet: wallets[i] });
+      friends.push({
+        name: user ? user.name : wallets[i],
+        avatar: getAvatarPath({ id: user ? user._id : "noavatar" }),
+      });
+    }
+
+    res.json(friends);
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "Server error!" });
+  }
+});
+
 router.get("/winners", async (_, res) => {
   try {
     const names = ["firstWinner", "secondWinner"];
