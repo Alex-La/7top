@@ -7,6 +7,7 @@ import { getUsers } from "../redux/actions/mainActions";
 
 import Left from "../img/left.png";
 import Place1 from "../img/place1.png";
+import Logo from "../img/logo.png";
 import { ImageUpload } from "./Upload";
 
 const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
@@ -31,7 +32,7 @@ const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
           )}
 
           <div className={styles.profile}>
-            {me && (
+            {me ? (
               <>
                 {" "}
                 <div className={styles.elipse}>
@@ -45,6 +46,12 @@ const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
                 </div>
                 <p className={styles.p1}>{me.name}</p>
               </>
+            ) : (
+              <div className={styles.elipse3}>
+                <div className={styles.imgPreview}>
+                  <img src={Logo} style={{ objectFit: "cover" }} />
+                </div>
+              </div>
             )}
           </div>
 
