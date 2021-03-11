@@ -11,6 +11,7 @@ const fs = require("fs");
 const path = require("path");
 const sendMail = require("../middleware/sendMail");
 const auth = require("../middleware/auth");
+const { getAvatarPath } = require("../utils");
 
 router.post(
   "/register",
