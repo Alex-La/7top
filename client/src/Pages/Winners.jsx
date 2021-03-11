@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import "../css/allWinners.css";
+import "../css/people.css";
 
 import Account from "../Components/Account";
 
