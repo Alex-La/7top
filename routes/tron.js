@@ -217,16 +217,60 @@ router.get("/friends/:wallet", async (req, res) => {
   }
 });
 
-router.get("/winners", async (_, res) => {
+router.get("/winners", async (req, res) => {
   try {
     const names = ["firstWinner", "secondWinner"];
 
     const trxPrice = tronweb.toDecimal(
       (await addresses.SevenTOP.trxPrice().call())._hex
     );
-    const data = [];
 
-    res.json(names);
+    const data = [];
+    for (const [_, value] of Object.entries(gamesAddress)) {
+      for (let i in names) {
+        const trans = await trongrid.contract.getEvents(value, {
+          event_name: names[i],
+          limit: 50,
+        });
+        data.push(...trans.data);
+      }
+    }
+
+    const result = data.map(({ result }) => ({
+      amount: ((result.amount * trxPrice) / 1e12).toFixed(2),
+      timestapmt: result.timestapmt,
+      user: tronweb.address.fromHex(result.user),
+    }));
+
+    const wallets = result.map(({ user }) => user);
+    const users = await User.find({ wallet: wallets });
+
+    const results = result.map((res) => ({
+      ...res,
+      user: ((user) => ({
+        name: user ? user.name : res.user,
+        avatar: getAvatarPath({ id: user ? user._id : "noavatar" }),
+      }))(users.find(({ wallet }) => wallet === res.user)),
+    }));
+
+    const pagResults = paginateResults({
+      results: results,
+      pageSize: 10,
+      after: req.query.after,
+      cursorKey: "timestapmt",
+    });
+
+    res.json({
+      total: results.length,
+      cursor: pagResults.length
+        ? pagResults[pagResults.length - 1].timestapmt
+        : null,
+      hasMore: pagResults.length
+        ? pagResults[pagResults.length - 1].timestapmt !==
+          results[results.length - 1].timestapmt
+        : false,
+      allWinners: pagResults,
+    });
   } catch (e) {
     console.log(e);
     res.status(500).json({ message: "Server error!" });

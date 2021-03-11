@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import "../css/friends.css";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +8,17 @@ import Account from "../Components/Account";
 import Preloader from "../Components/Preloader";
 
 const Friends = () => {
+  useEffect(() => {
+    document.title =
+      "Мои друзья в 7top.org. Участвуй вместе, получай приятный процент от Смартконтракта 7top.org";
+    document
+      .querySelector('meta[name="description"]')
+      .setAttribute(
+        "content",
+        "Получай бонус от участия приглашенных друзей. Раздели счастье выигрыша вместе с друзьями. Выплата до 5% от джекпота при условии победы вашего друга."
+      );
+  }, []);
+
   const dispatch = useDispatch();
   const me = useSelector(({ me }) => me);
   const { friends, cursor, hasMore, loading, success } = useSelector(
