@@ -10,16 +10,6 @@ export const getMe = () => async (dispatch) => {
     .catch(() => dispatch({ type: "ME_ERROR" }));
 };
 
-export const getUsers = () => async (dispatch) => {
-  try {
-    dispatch({ type: "USERS_SUCCESS" });
-    const res = await fetchUsers();
-    dispatch({ type: "USERS", payload: res });
-  } catch (e) {
-    dispatch({ type: "USERS_SUCCESS" });
-  }
-};
-
 export const getAllGames = () => async (dispatch) => {
   dispatch({ type: "ALL_GAMES_PANDING" });
   fetch("/api/tron/allgames")
@@ -29,6 +19,16 @@ export const getAllGames = () => async (dispatch) => {
     })
     .then((res) => dispatch({ type: "ALLGAMES", payload: res }))
     .catch(() => dispatch({ type: "ALL_GAMES_PANDING" }));
+};
+
+export const getUsers = () => async (dispatch) => {
+  try {
+    dispatch({ type: "USERS_SUCCESS" });
+    const res = await fetchUsers();
+    dispatch({ type: "USERS", payload: res });
+  } catch (e) {
+    dispatch({ type: "USERS_SUCCESS" });
+  }
 };
 
 export const loadMoreUsers = (after) => async (dispatch) => {
@@ -41,8 +41,34 @@ export const loadMoreUsers = (after) => async (dispatch) => {
   }
 };
 
-const fetchUsers = async (after = 0) => {
+const fetchUsers = async (after = -1) => {
   const response = await fetch(`/api/main/allusers/?after=${after}`);
+  if (!response.ok) throw new Error(response.statusText);
+  return response.json();
+};
+
+export const getFriends = (wallet) => async (dispatch) => {
+  try {
+    dispatch({ type: "FRIENDS_SUCCESS" });
+    const res = await fetchFriends(wallet);
+    dispatch({ type: "FRIENDS", payload: res });
+  } catch (e) {
+    dispatch({ type: "FRIENDS_SUCCESS" });
+  }
+};
+
+export const loadMoreFriends = (wallet, after) => async (dispatch) => {
+  try {
+    dispatch({ type: "FRIENDS_LOADING" });
+    const res = await fetchFriends(wallet, after);
+    dispatch({ type: "LOAD_MORE_FRIENDS", payload: res });
+  } catch (e) {
+    dispatch({ type: "FRIENDS_SUCCESS" });
+  }
+};
+
+const fetchFriends = async (wallet, after = -1) => {
+  const response = await fetch(`/api/tron/friends/${wallet}?after=${after}`);
   if (!response.ok) throw new Error(response.statusText);
   return response.json();
 };

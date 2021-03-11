@@ -48,3 +48,31 @@ export const users = (state = usersState, action) => {
       return state;
   }
 };
+
+const friendsState = {
+  total: undefined,
+  cursor: 0,
+  hasMore: false,
+  friends: [],
+  loading: false,
+  success: false,
+};
+export const friends = (state = friendsState, action) => {
+  switch (action.type) {
+    case "FRIENDS_SUCCESS":
+      return { ...state, success: false };
+    case "FRIENDS":
+      return { ...action.payload, success: true, loading: false };
+    case "FRIENDS_LOADING":
+      return { ...state, loading: true };
+    case "LOAD_MORE_FRIENDS":
+      return {
+        ...action.payload,
+        loading: false,
+        success: true,
+        friends: [...state.friends, ...action.payload.friends],
+      };
+    default:
+      return state;
+  }
+};

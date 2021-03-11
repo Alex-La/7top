@@ -209,7 +209,7 @@ router.get("/friends/:wallet", async (req, res) => {
         ? pagFriends[pagFriends.length - 1].cursorKey !==
           friends[friends.length - 1].cursorKey
         : false,
-      owners: pagFriends,
+      friends: pagFriends,
     });
   } catch (e) {
     console.log(e);

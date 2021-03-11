@@ -24,12 +24,12 @@ export const getOwners = (contract) => async (dispatch) => {
   dispatch({ type: "OWNERS", payload: res });
 };
 
-export const loadMoreOwners = (contract, after = 0) => async (dispatch) => {
+export const loadMoreOwners = (contract, after = -1) => async (dispatch) => {
   const res = await fetchOwners(contract, after);
   dispatch({ type: "LOAD_MORE_OWNERS", payload: res });
 };
 
-const fetchOwners = async (contract, after = 0) => {
+const fetchOwners = async (contract, after = -1) => {
   try {
     const response = await fetch(`/api/tron/owners/${contract}?after=${after}`);
     if (!response.ok) throw new Error(response.statusText);
