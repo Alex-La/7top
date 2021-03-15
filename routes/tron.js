@@ -280,4 +280,17 @@ router.get("/winners", async (req, res) => {
   }
 });
 
+router.get("/balls/:name", async (req, res) => {
+  try {
+    let balls;
+
+    if (req.params.name === "null") balls = await Ball.find();
+    else balls = await Ball.find({ name: req.params.name });
+
+    if (balls) res.status(200).json(balls);
+  } catch (e) {
+    res.status(500).json(e);
+  }
+});
+
 module.exports = router;
