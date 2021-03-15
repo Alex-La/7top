@@ -7,7 +7,7 @@ import { getUsers, getFriends } from "../redux/actions/mainActions";
 
 import Left from "../img/left.png";
 import Place1 from "../img/place1.png";
-import Logo from "../img/logo.png";
+import Logo from "../img/noavatar.jpg";
 import { ImageUpload } from "./Upload";
 
 const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
@@ -52,11 +52,7 @@ const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
                 <p className={styles.p1}>{me.name}</p>
               </>
             ) : (
-              <div className={styles.elipse3}>
-                <div className={styles.imgPreview}>
-                  <img src={Logo} style={{ objectFit: "cover" }} />
-                </div>
-              </div>
+              <img src={Logo} style={{ maxWidth: 150 }} />
             )}
           </div>
 
