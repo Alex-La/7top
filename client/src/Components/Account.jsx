@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "../css/account.module.css";
 
+import useHttp from "../hooks/http.hook";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers, getFriends } from "../redux/actions/mainActions";
+import { getUsers, getFriends, getMe } from "../redux/actions/mainActions";
 
 import Left from "../img/left.png";
 import Place1 from "../img/place1.png";
@@ -14,7 +15,32 @@ const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
   const allUsersLength = useSelector(({ users }) => users.allUsersLength);
   const total = useSelector(({ friends }) => friends.total);
   const me = useSelector(({ me }) => me);
+  const { request } = useHttp();
+  const [admin, isAdmin] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!me) dispatch(getMe());
+  }, [dispatch, getMe, me]);
+
+  useEffect(() => {
+    if (me)
+      (async () => {
+        try {
+          const result = await request(
+            "/api/auth/admin",
+            "POST",
+            { userId: me._id },
+            {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            }
+          );
+          isAdmin(result.admin);
+        } catch (e) {
+          console.log(e.message);
+        }
+      })();
+  }, [me]);
 
   useEffect(() => {
     if (!allUsersLength) dispatch(getUsers());
@@ -72,7 +98,6 @@ const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
 
         <div className={styles.info}>
           <div className={styles.links}>
-            {/* <NavLink to="/friends">1 My friends</NavLink> */}
             {me && <NavLink to="/friends">{total} My friends</NavLink>}
             <NavLink to="/people">{allUsersLength} All</NavLink>
             {showWallet && me ? (
@@ -99,7 +124,7 @@ const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
                 </a>
               </>
             )}
-            {/* {admin ? <NavLink to="/admin">Admin</NavLink> : ""} */}
+            {admin ? <NavLink to="/admin">Admin</NavLink> : ""}
           </div>
         </div>
       </div>

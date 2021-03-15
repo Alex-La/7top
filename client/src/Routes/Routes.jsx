@@ -15,6 +15,7 @@ const LimitGame = lazy(() => import("../Pages/LimitGame"));
 const OneWeek = lazy(() => import("../Pages/OneWeek"));
 const OneMonth = lazy(() => import("../Pages/OneMonth"));
 const OneYear = lazy(() => import("../Pages/OneYear"));
+const Admin = lazy(() => import("../Pages/Admin"));
 
 const Routes = () => {
   return (
@@ -28,6 +29,7 @@ const Routes = () => {
         <Route path="/friends" component={Friends} />
         <Route path="/people" component={People} />
         <Route path="/winners" component={Winners} />
+        <Route path="/admin" component={Admin} />
         <Route path="/limitGame" component={LimitGame} />
         <Route path="/oneWeek" component={OneWeek} />
         <Route path="/oneMonth" component={OneMonth} />

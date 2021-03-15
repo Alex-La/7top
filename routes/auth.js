@@ -10,6 +10,22 @@ const sendMail = require("../middleware/sendMail");
 const auth = require("../middleware/auth");
 const { getAvatarPath } = require("../utils");
 
+router.post("/admin", auth, async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const { wallet } = await User.findOne({ _id: userId });
+    if (
+      wallet === config.get("ManagerOne") ||
+      wallet === config.get("ManagerTwo") ||
+      wallet === config.get("Owner")
+    )
+      res.status(200).json({ admin: true });
+    else res.status(200).json({ admin: false });
+  } catch (e) {
+    res.status(500).json({ message: "Something went wrong, try again" });
+  }
+});
+
 router.post(
   "/register",
   [
