@@ -1,7 +1,6 @@
 import { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getWinners } from "../../../redux/actions/tronActions";
-import useBalls from "../../../hooks/balls.hook";
 
 import Win from "../../../img/win.png";
 import Place1 from "../../../img/place1.png";
@@ -17,16 +16,11 @@ const ReturnDate = ({ time }) => {
 };
 
 const Winners = () => {
-  const { getBalls, ReturnBalls } = useBalls();
   const dispatch = useDispatch();
   const { winners, contract } = useSelector(({ winners, contract }) => ({
     winners,
     contract,
   }));
-
-  useEffect(() => {
-    getBalls(contract);
-  }, [getBalls, contract]);
 
   useEffect(() => {
     if (contract) dispatch(getWinners(contract));
@@ -60,7 +54,6 @@ const Winners = () => {
                 {index + 1} Place <span>{winner.amount} $</span>
               </p>
             </div>
-            <ReturnBalls place={index} time={winner.timestapmt} />
           </div>
         </div>
       ))}
