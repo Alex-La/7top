@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useMessage from "../../hooks/message.hook";
 import useHttp from "../../hooks/http.hook";
+
+import { useSelector } from "react-redux";
 
 const Month = () => {
   const message = useMessage();
   const { request } = useHttp();
-  const [tronWeb, setTronWeb] = useState(null);
-  const [Month5, setMonth5] = useState(null);
+  const tronWeb = useSelector(({ tronWeb }) => tronWeb);
 
   const [winnersTickets, setWinnersTickets] = useState([null, null]);
   const [sum, setSum] = useState(0);
@@ -21,36 +22,42 @@ const Month = () => {
     six: "",
   });
 
-  useEffect(() => {
-    if (Month5)
-      (async () => {
-        let sumCont = await Month5.getSumOnContract().call();
-        sumCont = tronWeb.toDecimal(sumCont._hex);
-        console.log(Math.floor(sumCont / 1e12));
-        setSum(sumCont);
-      })();
-  }, [Month5]);
+  const sellOrStopSellTickets = useCallback(async () => {
+    try {
+      const Month5 = await tronWeb.instance.contract().at(tronWeb.Month5);
+      await Month5.sellOrStopSellTickets().send();
+      await new Promise((reslove) => setTimeout(reslove, 1000));
+      const sell = await sellTickets();
+      await request("/api/tron/sell", "POST", { month5: sell });
+    } catch (e) {
+      console.log(e);
+    }
+  }, [tronWeb]);
 
-  useEffect(() => {
-    if (tronWeb)
-      (async () => {
-        setMonth5(
-          await tronWeb.contract().at("TVGniJKSx13v74zfwZL16pjvGUVf4xQynD")
-        );
-      })();
+  const sellTickets = useCallback(async () => {
+    if (!tronWeb.instance) return;
+    const Month5 = await tronWeb.instance.contract().at(tronWeb.Month5);
+    const sell = await Month5.sellTickets().call();
+    setSellTicks(sell);
+    return sell;
   }, [tronWeb]);
 
   useEffect(() => {
-    let tries = 0;
-    const inter = setInterval(() => {
-      if (window.tronWeb) {
-        clearInterval(inter);
-        setTronWeb(window.tronWeb);
-      } else tries++;
+    if (tronWeb.instance)
+      (async () => {
+        const Month5 = await tronWeb.instance.contract().at(tronWeb.Month5);
 
-      if (tries === 10) clearInterval(inter);
-    }, 1000);
-  }, []);
+        let tick = await Month5.countOfTicket().call();
+        tick = tronWeb.instance.toDecimal(tick._hex);
+        setTicksCount(tick);
+
+        let sumCont = await Month5.getSumOnContract().call();
+        sumCont = tronWeb.instance.toDecimal(sumCont._hex);
+        setSum(Math.floor(sumCont / 1e12));
+
+        sellTickets();
+      })();
+  }, [tronWeb, sellTickets]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -147,13 +154,19 @@ const Month = () => {
           <button className="acc-btn acc-send">Send</button>
         </div>
         <div className="col s3">
-          <button className="acc-btn acc-stop" style={{ float: "right" }}>
+          <button
+            onClick={sellOrStopSellTickets}
+            className="acc-btn acc-stop"
+            style={{ float: "right" }}
+          >
             Stop
           </button>
         </div>
 
         <div className="col s3">
-          <button className="acc-btn acc-sell">Start</button>
+          <button onClick={sellOrStopSellTickets} className="acc-btn acc-sell">
+            Start
+          </button>
         </div>
       </div>
       <div

@@ -1,61 +1,20 @@
-import { Fragment, useCallback, useEffect, useState } from "react";
-import Ticket from "../../../img/ticket.png";
-
-import { useSelector, useDispatch } from "react-redux";
-import { getBalance, buyAction } from "../../../redux/actions/tronActions";
+import { Fragment } from "react";
 
 import useTronWeb from "../../../hooks/tronweb.hook";
 
+import Ticket from "../../../img/ticket.png";
 import Ticketimg from "../../../img/Ticketimg.png";
 
-const Tickets = () => {
+const Tickets = ({ showButtons }) => {
   const { buyTicket, myTickets } = useTronWeb();
-  const dispatch = useDispatch();
-  const { contract, me, owners } = useSelector(({ contract, me, owners }) => ({
-    contract,
-    me,
-    owners,
-  }));
-
-  // const getMyTickets = useCallback(async () => {
-  //   if (window.tronWeb && window.tronWeb.ready && me) {
-  //     const lottery = await window.tronWeb.contract().at(games[contract]);
-  //     const ticks = await lottery.getMyTickets(me.wallet).call();
-  //     const arrayOfTicks = [];
-  //     for (let i in ticks) {
-  //       arrayOfTicks.push(window.tronWeb.toDecimal(ticks[i]._hex));
-  //     }
-  //     setMyTickets(arrayOfTicks);
-  //   }
-  // }, [me, contract]);
-
-  // useEffect(() => {
-  //   let tries = 0;
-  //   const inter = setInterval(() => {
-  //     if (window.tronWeb) {
-  //       clearInterval(inter);
-  //       getMyTickets();
-  //     } else tries++;
-
-  //     if (tries === 10) clearInterval(inter);
-  //   }, 1000);
-  // }, [getMyTickets]);
-
-  // useEffect(() => {
-  //   if (error === "Success!") {
-  //     dispatch(buyAction({ me }));
-  //     dispatch(getBalance({ contract }));
-  //     setMyTickets([owners.total, ...myTickets]);
-  //   }
-  //   message(error);
-  //   clearError();
-  // }, [error, clearError, message, dispatch, getMyTickets, me, contract]);
 
   return (
     <Fragment>
-      <a onClick={buyTicket}>
-        <div className="btn">BUY</div>
-      </a>
+      {showButtons && (
+        <a onClick={buyTicket}>
+          <div className="btn">BUY</div>
+        </a>
+      )}
 
       <div className="ticket-title">
         <img src={Ticket} alt="ticket" />

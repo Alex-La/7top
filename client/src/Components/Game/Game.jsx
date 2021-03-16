@@ -6,7 +6,7 @@ import Body from "./Body/Participants";
 import Tickets from "./Body/Tickets";
 import Winners from "./Body/Winners";
 
-const Game = ({ title, time = false, children }) => {
+const Game = ({ title, time = false, children, showButtons }) => {
   return (
     <Fragment>
       <Header time={time} title={title}>
@@ -17,7 +17,7 @@ const Game = ({ title, time = false, children }) => {
           <div className="section22">
             <Body />
             <div className="tickets">
-              <Tickets />
+              <Tickets showButtons={showButtons} />
               <Winners />
             </div>
           </div>

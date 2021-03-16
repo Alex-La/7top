@@ -3,9 +3,11 @@ import Slider from "react-slick";
 import "../css/game.css";
 
 import useHttp from "../hooks/http.hook";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCurrentContract } from "../redux/actions/tronActions";
+import io from "socket.io-client";
 
+import Banner from "../Components/Game/Banner";
 import Game from "../Components/Game/Game";
 
 const OneWeek = () => {
@@ -22,7 +24,39 @@ const OneWeek = () => {
 
   const { request } = useHttp();
   const dispatch = useDispatch();
+  const { tronWeb, contract } = useSelector(({ tronWeb, contract }) => ({
+    tronWeb,
+    contract,
+  }));
   const [time, setTime] = useState(0);
+  const [bannerCfg, setBannerCfg] = useState({
+    showBanner: false,
+    showButtons: true,
+  });
+
+  useEffect(() => {
+    const socket = io();
+    socket.on("sell", (data) => {
+      if (contract === "Everyweek5" && "week5" in data)
+        setBannerCfg({ showBanner: !data.week5, showButtons: data.week5 });
+      if (contract === "Everyweek50" && "week50" in data)
+        setBannerCfg({ showBanner: !data.week50, showButtons: data.week50 });
+      if ("drawing" in data) {
+        window.location.reload();
+      }
+    });
+
+    return () => socket.off("sell");
+  }, []);
+
+  useEffect(() => {
+    if (tronWeb.instance)
+      (async () => {
+        let sell = await tronWeb.instance.contract().at(tronWeb[contract]);
+        sell = await sell.sellTickets().call();
+        setBannerCfg({ showBanner: !sell, showButtons: sell });
+      })();
+  }, [tronWeb, contract]);
 
   useEffect(() => {
     dispatch(setCurrentContract({ contract: "Everyweek5" }));
@@ -49,7 +83,16 @@ const OneWeek = () => {
 
   return (
     <div className="row game">
-      <Game title="Every 10 people" time={time}>
+      {bannerCfg.showBanner && (
+        <Banner
+          onClose={() => setBannerCfg((cfg) => ({ ...cfg, showBanner: false }))}
+        />
+      )}
+      <Game
+        title="Every 10 people"
+        time={time}
+        showButtons={bannerCfg.showButtons}
+      >
         <Slider {...setting}>
           {arrayOfSlides.map((item, index) => (
             <div className="item" key={index}>

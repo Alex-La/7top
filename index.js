@@ -21,6 +21,7 @@ const transporter = nodemailer.createTransport({
 
 const app = express();
 const server = require("http").createServer(app);
+const io = require("socket.io")(server);
 
 app.use(express.json({ extended: true }));
 app.use(bodyParser.json());
@@ -29,6 +30,7 @@ app.use(cors());
 app.use(methodOverride("_method"));
 app.set("view engine", "ejs");
 app.set("transporter", transporter);
+app.set("io", io);
 app.use("/api/tron", require("./routes/tron"));
 app.use("/api/main", require("./routes/main"));
 app.use("/api/auth", require("./routes/auth"));
