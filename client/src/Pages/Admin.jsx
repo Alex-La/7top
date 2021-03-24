@@ -8,6 +8,7 @@ import "../css/account.css";
 import Account from "../Components/Account";
 
 import Month from "../Components/Admin/Month";
+import Year from "../Components/Admin/Year";
 
 const Admin = () => {
   const me = useSelector(({ me }) => me);
@@ -65,6 +66,14 @@ const Admin = () => {
             </div>
           </div>
         </section>
+        <br />
+        {/* <section>
+          <div className="container">
+            <div className="acc-wrap">
+              <Year />
+            </div>
+          </div>
+        </section> */}
       </div>
       {!tronWeb && (
         <span
