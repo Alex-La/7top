@@ -6,7 +6,13 @@ import Body from "./Body/Participants";
 import Tickets from "./Body/Tickets";
 import Winners from "./Body/Winners";
 
-const Game = ({ title, time = false, children, showButtons }) => {
+const Game = ({
+  title,
+  time = false,
+  children,
+  showButtons,
+  showVideo = true,
+}) => {
   return (
     <Fragment>
       <Header time={time} title={title}>
@@ -23,7 +29,7 @@ const Game = ({ title, time = false, children, showButtons }) => {
           </div>
         </div>
       </section>
-      <Footer />
+      {showVideo && <Footer />}
     </Fragment>
   );
 };

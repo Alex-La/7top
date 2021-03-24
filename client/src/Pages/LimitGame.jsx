@@ -58,7 +58,7 @@ const LimitGame = () => {
 
   return (
     <div className="row game">
-      <Game title="Every 10 people" showButtons>
+      <Game title="Every 10 people" showButtons showVideo={false}>
         <Slider {...setting}>
           {arrayOfSlides.map((item, index) => (
             <div className="item" key={index}>

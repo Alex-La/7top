@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "../css/account.module.css";
+import "../css/acc.css";
 
 import useHttp from "../hooks/http.hook";
 import { NavLink } from "react-router-dom";
@@ -57,7 +58,7 @@ const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
       <div className={styles.container + " container"}>
         <div className={styles.account}>
           {backBtn && (
-            <NavLink to="/" className={styles.left}>
+            <NavLink to="/allgames" className={styles.left}>
               <img src={Left} alt="left" />
             </NavLink>
           )}
@@ -78,7 +79,7 @@ const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
                 <p className={styles.p1}>{me.name}</p>
               </>
             ) : (
-              <img src={Logo} style={{ maxWidth: 150 }} />
+              <img src={Logo} alt="logo" className="prev-logo" />
             )}
           </div>
 
