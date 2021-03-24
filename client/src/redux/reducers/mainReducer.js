@@ -21,6 +21,17 @@ export const allgames = (state = null, action) => {
   }
 };
 
+export const language = (state = null, action) => {
+  switch (action.type) {
+    case "CHANGE_LANGUAGE":
+      return action.payload;
+    case "CHANGE_LANGUAGE_PANDING":
+      return state;
+    default:
+      return state;
+  }
+};
+
 const usersState = {
   allUsersLength: undefined,
   cursor: 0,

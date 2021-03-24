@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 
 import Preloader from "../Components/Preloader";
 
+const StartPage = lazy(() => import("../Pages/StartPage"));
 const AllGames = lazy(() => import("../Pages/AllGames"));
 const AuthPage = lazy(() => import("../Pages/AuthPage"));
 const LoginPage = lazy(() => import("../Pages/LoginPage"));
@@ -21,7 +22,8 @@ const Routes = () => {
   return (
     <Suspense fallback={<Preloader />}>
       <Switch>
-        <Route exact path="/" component={AllGames} />
+        <Route exact path="/" component={StartPage} />
+        <Route path="/allgames" component={AllGames} />
         <Route path="/register" component={AuthPage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/new-password/:token" component={NewPassword} />

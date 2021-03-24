@@ -21,6 +21,17 @@ export const getAllGames = () => async (dispatch) => {
     .catch(() => dispatch({ type: "ALL_GAMES_PANDING" }));
 };
 
+export const changeLanguage = (lang = "english") => async (dispatch) => {
+  dispatch({ type: "CHANGE_LANGUAGE_PANDING" });
+  fetch(`/api/main/language/${lang}`)
+    .then((response) => {
+      if (!response.ok) throw new Error(response.statusText);
+      return response.json();
+    })
+    .then((res) => dispatch({ type: "CHANGE_LANGUAGE", payload: res }))
+    .catch(() => dispatch({ type: "CHANGE_LANGUAGE_PANDING" }));
+};
+
 export const getUsers = () => async (dispatch) => {
   try {
     dispatch({ type: "USERS_SUCCESS" });
