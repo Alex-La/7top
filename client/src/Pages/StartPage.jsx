@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { changeLanguage } from "../redux/actions/mainActions";
 
@@ -15,7 +15,10 @@ import Preloader from "../Components/Preloader";
 
 const StartPage = () => {
   const dispatch = useDispatch();
-  const language = useSelector(({ language }) => language);
+  const { language, instance } = useSelector(({ language, tronWeb }) => ({
+    language,
+    instance: tronWeb.instance,
+  }));
   const languages = [
     { lang: "german", margin: 205 },
     { lang: "russian", margin: 185 },
@@ -57,9 +60,15 @@ const StartPage = () => {
             <NavLink className="entrance" to="/register">
               Create new
             </NavLink>
-            <NavLink className="login" to="/login">
-              Login
-            </NavLink>
+            {instance && instance.ready ? (
+              <NavLink className="login" to="/login">
+                Login
+              </NavLink>
+            ) : (
+              <NavLink className="login" to="/allgames">
+                Look around
+              </NavLink>
+            )}
           </div>
 
           <div className="video">
