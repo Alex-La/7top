@@ -10,6 +10,7 @@ import Chelovek from "../../img/chelovek.png";
 
 const Header = ({ title, time, children }) => {
   const dispatch = useDispatch();
+  const language = useSelector(({ language }) => language);
   const { contract, balance } = useSelector(({ contract, balance }) => ({
     contract,
     balance,
@@ -27,13 +28,13 @@ const Header = ({ title, time, children }) => {
         {time && <Timer time={time} />}
 
         <div className="total">
-          <p className="p3">Sum total</p>
+          <p className="p3">{language.result.page.game[4]}</p>
           <div className="sum-total">
             <div className="total-info">
               <img src={Money} alt="money" />
               <p className="p4" id="lalla">
                 <span>{balance} $</span>
-                Bank
+                {language.result.page.game[9]}
               </p>
             </div>
           </div>

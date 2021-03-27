@@ -23,6 +23,7 @@ const LimitGame = () => {
       );
   }, []);
 
+  const language = useSelector(({ language }) => language);
   const { contract, owners } = useSelector(({ contract, owners }) => ({
     contract,
     owners,
@@ -58,7 +59,11 @@ const LimitGame = () => {
 
   return (
     <div className="row game">
-      <Game title="Every 10 people" showButtons showVideo={false}>
+      <Game
+        title={language.result.page.allgames[4]}
+        showButtons
+        showVideo={false}
+      >
         <Slider {...setting}>
           {arrayOfSlides.map((item, index) => (
             <div className="item" key={index}>

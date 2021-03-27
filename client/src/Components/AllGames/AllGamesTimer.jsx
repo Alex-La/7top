@@ -1,7 +1,10 @@
 import { Fragment } from "react";
 import Timer from "react-compound-timer";
+import { useSelector } from "react-redux";
 
 const AllGamesTimer = ({ initialTime }) => {
+  const language = useSelector(({ language }) => language);
+
   return (
     <Timer initialTime={initialTime} direction="backward">
       {() => (
@@ -14,7 +17,7 @@ const AllGamesTimer = ({ initialTime }) => {
             </li>
             <hr />
             <li>
-              <Timer.Days /> day
+              <Timer.Days /> {language.result.page.allgames[2]}
             </li>
             <hr />
             <li style={{ color: "#979797" }}>
@@ -29,7 +32,7 @@ const AllGamesTimer = ({ initialTime }) => {
             </li>
             <hr />
             <li>
-              <Timer.Hours /> hour
+              <Timer.Hours /> {language.result.page.allgames[3]}
             </li>
             <hr />
             <li style={{ color: "#979797" }}>

@@ -14,6 +14,7 @@ import { ImageUpload } from "./Upload";
 
 const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
   const allUsersLength = useSelector(({ users }) => users.allUsersLength);
+  const language = useSelector(({ language }) => language);
   const total = useSelector(({ friends }) => friends.total);
   const me = useSelector(({ me }) => me);
   const { request } = useHttp();
@@ -51,6 +52,10 @@ const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
     if (me && !allUsersLength) dispatch(getFriends(me.wallet));
   }, [me]);
 
+  useEffect(() => {
+    console.log(language);
+  }, [language]);
+
   const logoutHandler = () => localStorage.removeItem("token");
 
   return (
@@ -86,7 +91,7 @@ const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
           {winnerList && (
             <NavLink to="/winners" className={styles.winnersBtn}>
               <img src={Place1} alt="star" />
-              <span>Winners</span>
+              <span>{language.result.page.account[0]}</span>
             </NavLink>
           )}
 
@@ -99,11 +104,17 @@ const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
 
         <div className={styles.info}>
           <div className={styles.links}>
-            {me && <NavLink to="/friends">{total} My friends</NavLink>}
-            <NavLink to="/people">{allUsersLength} All</NavLink>
+            {me && (
+              <NavLink to="/friends">
+                {total} {language.result.page.account[1]}
+              </NavLink>
+            )}
+            <NavLink to="/people">
+              {allUsersLength} {language.result.page.account[2]}
+            </NavLink>
             {showWallet && me ? (
               <a>
-                My wallet:{" "}
+                {language.result.page.account[3]}:{" "}
                 {me.wallet.substr(0, 6) + "..." + me.wallet.substr(30, 4)}
               </a>
             ) : (
@@ -111,8 +122,14 @@ const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
                 {!me && (
                   <>
                     {" "}
-                    <NavLink to="/login">Вход</NavLink>
-                    <NavLink to="/register">Регистрация</NavLink>
+                    <NavLink to="/login">
+                      {language ? language.result.page.account[4] : "Login"}
+                    </NavLink>
+                    <NavLink to="/register">
+                      {language
+                        ? language.result.page.account[5]
+                        : "Registration"}
+                    </NavLink>
                   </>
                 )}
                 <a
@@ -121,7 +138,7 @@ const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
                   target="_blank"
                 >
                   <i className="fa fa-telegram" aria-hidden="true"></i>
-                  <span>Telegram chat</span>
+                  <span>{language.result.page.account[6]}</span>
                 </a>
               </>
             )}

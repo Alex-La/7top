@@ -17,6 +17,7 @@ const ReturnDate = ({ time }) => {
 
 const Winners = () => {
   const dispatch = useDispatch();
+  const language = useSelector(({ language }) => language);
   const { winners, contract } = useSelector(({ winners, contract }) => ({
     winners,
     contract,
@@ -30,7 +31,7 @@ const Winners = () => {
     <Fragment>
       <div className="winners">
         <img src={Win} alt="winner" />
-        <p className="p10">List of winners</p>
+        <p className="p10">{language.result.page.game[8]}</p>
       </div>
 
       {winners.map((winner, index) => (

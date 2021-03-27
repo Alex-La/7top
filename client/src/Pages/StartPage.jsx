@@ -42,10 +42,6 @@ const StartPage = () => {
       );
   }, []);
 
-  useEffect(() => {
-    dispatch(changeLanguage());
-  }, [dispatch]);
-
   if (language === null) return <Preloader />;
 
   return (

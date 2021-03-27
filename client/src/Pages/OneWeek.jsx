@@ -24,6 +24,7 @@ const OneWeek = () => {
 
   const { request } = useHttp();
   const dispatch = useDispatch();
+  const language = useSelector(({ language }) => language);
   const { tronWeb, contract } = useSelector(({ tronWeb, contract }) => ({
     tronWeb,
     contract,
@@ -89,7 +90,7 @@ const OneWeek = () => {
         />
       )}
       <Game
-        title="Every 10 people"
+        title={language.result.page.allgames[5]}
         time={time}
         showButtons={bannerCfg.showButtons}
       >

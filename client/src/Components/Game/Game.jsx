@@ -2,7 +2,7 @@ import { Fragment } from "react";
 
 import Header from "./Header";
 import Footer from "./Footer";
-import Body from "./Body/Participants";
+import Participants from "./Body/Participants";
 import Tickets from "./Body/Tickets";
 import Winners from "./Body/Winners";
 
@@ -21,7 +21,7 @@ const Game = ({
       <section className="section" id="section2">
         <div className="container">
           <div className="section22">
-            <Body />
+            <Participants />
             <div className="tickets">
               <Tickets showButtons={showButtons} />
               <Winners />

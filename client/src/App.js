@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import "./App.css";
 
 import { useDispatch } from "react-redux";
-import { getMe } from "./redux/actions/mainActions";
+import { getMe, changeLanguage } from "./redux/actions/mainActions";
 import { setTronWeb } from "./redux/actions/tronWebActions";
 
 import { BrowserRouter } from "react-router-dom";
@@ -13,6 +13,7 @@ function App() {
 
   useEffect(() => {
     dispatch(getMe());
+    dispatch(changeLanguage());
   }, [dispatch]);
 
   useEffect(() => {

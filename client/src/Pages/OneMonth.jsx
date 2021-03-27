@@ -24,6 +24,7 @@ const OneMonth = () => {
 
   const { request } = useHttp();
   const dispatch = useDispatch();
+  const language = useSelector(({ language }) => language);
   const tronWeb = useSelector(({ tronWeb }) => tronWeb);
   const [time, setTime] = useState(0);
   const [bannerCfg, setBannerCfg] = useState({
@@ -85,7 +86,7 @@ const OneMonth = () => {
         />
       )}
       <Game
-        title="Every 10 people"
+        title={language.result.page.allgames[6]}
         time={time}
         showButtons={bannerCfg.showButtons}
       >

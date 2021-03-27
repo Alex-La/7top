@@ -10,6 +10,7 @@ const Body = () => {
     { total, cursor, hasMore, owners },
     contract,
   ] = useSelector(({ owners, contract }) => [owners, contract]);
+  const language = useSelector(({ language }) => language);
 
   useEffect(() => {
     if (contract) dispatch(getOwners(contract));
@@ -33,7 +34,7 @@ const Body = () => {
       <div className="title">
         <img src={Men2} alt="men" />
         <p>
-          Total participants
+          {language.result.page.game[5]}
           <span>{total}</span>
         </p>
       </div>
