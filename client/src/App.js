@@ -7,6 +7,7 @@ import { setTronWeb } from "./redux/actions/tronWebActions";
 
 import { BrowserRouter } from "react-router-dom";
 import Routes from "./Routes/Routes";
+import LangDropdown from "./Components/LangDropdown";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <LangDropdown />
       <Routes />
     </BrowserRouter>
   );
