@@ -159,7 +159,9 @@ router.get("/winners/:contract", async (req, res) => {
         });
     }
 
-    if (data[1] && data[0].timestapmt - data[1].timestapmt >= 10)
+    console.log(data);
+
+    if (data[1] && data[0].timestapmt - data[1].timestapmt >= 1000)
       data.splice(1, 1);
 
     const result = [];
