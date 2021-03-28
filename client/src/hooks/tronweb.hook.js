@@ -55,6 +55,10 @@ const useTronWeb = () => {
     })();
   }, [checkTronWeb, me, contract]);
 
+  useEffect(() => {
+    console.log(myTickets);
+  }, [myTickets]);
+
   const buyTicket = useCallback(async () => {
     try {
       if (checkTronWeb() || checkAuth()) return;
@@ -66,7 +70,7 @@ const useTronWeb = () => {
       message("Success!");
       dispatch(buyAction({ me }));
       dispatch(getBalance({ contract }));
-      setMyTickets([owners.total, ...myTickets]);
+      setMyTickets((ticks) => [ticks[0] + 1, ...ticks]);
     } catch (e) {
       message(typeof e === "object" ? e.message : e);
     }
