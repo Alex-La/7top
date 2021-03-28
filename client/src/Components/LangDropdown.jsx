@@ -21,11 +21,7 @@ const arr = [
 const LangDropdown = () => {
   const dispatch = useDispatch();
   const dropdownRef = useRef(null);
-  const [country, setCountry] = useState(
-    localStorage.getItem("lang")
-      ? JSON.parse(localStorage.getItem("lang"))
-      : { name: "English", src: Us }
-  );
+  const [country, setCountry] = useState({ name: "English", src: Us });
 
   useEffect(() => {
     if (dropdownRef.current)
@@ -35,11 +31,6 @@ const LangDropdown = () => {
   useEffect(() => {
     dispatch(changeLanguage(country.name));
   }, [country, dispatch]);
-
-  const changeLang = (i) => {
-    setCountry(arr[i]);
-    localStorage.setItem("lang", JSON.stringify(arr[i]));
-  };
 
   return (
     <div
@@ -62,7 +53,7 @@ const LangDropdown = () => {
       >
         {arr.map((c, i) => (
           <li
-            onClick={() => changeLang(i)}
+            onClick={() => setCountry(arr[i])}
             style={{
               display: "flex",
               alignItems: "center",
