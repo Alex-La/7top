@@ -52,10 +52,6 @@ const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
     if (me && !allUsersLength) dispatch(getFriends(me.wallet));
   }, [me]);
 
-  useEffect(() => {
-    console.log(language);
-  }, [language]);
-
   const logoutHandler = () => localStorage.removeItem("token");
 
   return (

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentContract } from "../redux/actions/tronActions";
 
 import Game from "../Components/Game/Game";
+import Banner from "../Components/Game/Banner";
 
 const OneWeek = () => {
   useEffect(() => {
@@ -23,10 +24,24 @@ const OneWeek = () => {
   const { request } = useHttp();
   const dispatch = useDispatch();
   const language = useSelector(({ language }) => language);
+  const tronWeb = useSelector(({ tronWeb }) => tronWeb);
   const { contract } = useSelector(({ contract }) => ({
     contract,
   }));
   const [time, setTime] = useState(0);
+  const [bannerCfg, setBannerCfg] = useState({
+    showBanner: false,
+    showButtons: true,
+  });
+
+  useEffect(() => {
+    if (tronWeb.instance)
+      (async () => {
+        let sell = await tronWeb.instance.contract().at(tronWeb[contract]);
+        sell = await sell.sellTickets().call();
+        setBannerCfg({ showBanner: !sell, showButtons: sell });
+      })();
+  }, [tronWeb, contract]);
 
   useEffect(() => {
     dispatch(setCurrentContract({ contract: "Everyweek5" }));
@@ -53,10 +68,15 @@ const OneWeek = () => {
 
   return (
     <div className="row game">
+      {bannerCfg.showBanner && (
+        <Banner
+          onClose={() => setBannerCfg((cfg) => ({ ...cfg, showBanner: false }))}
+        />
+      )}
       <Game
         title={language.result.page.allgames[5]}
         time={time}
-        showButtons={true}
+        showButtons={bannerCfg.showButtons}
       >
         <Slider {...setting}>
           {arrayOfSlides.map((item, index) => (

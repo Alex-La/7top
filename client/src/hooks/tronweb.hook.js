@@ -55,10 +55,6 @@ const useTronWeb = () => {
     })();
   }, [checkTronWeb, me, contract]);
 
-  useEffect(() => {
-    console.log(myTickets);
-  }, [myTickets]);
-
   const buyTicket = useCallback(async () => {
     try {
       if (checkTronWeb() || checkAuth()) return;

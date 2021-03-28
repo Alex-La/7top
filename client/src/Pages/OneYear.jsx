@@ -8,6 +8,7 @@ import { setCurrentContract } from "../redux/actions/tronActions";
 import io from "socket.io-client";
 
 import Game from "../Components/Game/Game";
+import Banner from "../Components/Game/Banner";
 
 const OneYear = () => {
   useEffect(() => {
@@ -24,7 +25,24 @@ const OneYear = () => {
   const { request } = useHttp();
   const dispatch = useDispatch();
   const language = useSelector(({ language }) => language);
+  const tronWeb = useSelector(({ tronWeb }) => tronWeb);
+  const { contract } = useSelector(({ contract }) => ({
+    contract,
+  }));
   const [time, setTime] = useState(0);
+  const [bannerCfg, setBannerCfg] = useState({
+    showBanner: false,
+    showButtons: true,
+  });
+
+  useEffect(() => {
+    if (tronWeb.instance)
+      (async () => {
+        let sell = await tronWeb.instance.contract().at(tronWeb[contract]);
+        sell = await sell.sellTickets().call();
+        setBannerCfg({ showBanner: !sell, showButtons: sell });
+      })();
+  }, [tronWeb, contract]);
 
   useEffect(() => {
     dispatch(setCurrentContract({ contract: "EveryYear5" }));
@@ -51,10 +69,15 @@ const OneYear = () => {
 
   return (
     <div className="row game">
+      {bannerCfg.showBanner && (
+        <Banner
+          onClose={() => setBannerCfg((cfg) => ({ ...cfg, showBanner: false }))}
+        />
+      )}
       <Game
         title={language.result.page.allgames[9]}
         time={time}
-        showButtons={true}
+        showButtons={bannerCfg.showButtons}
       >
         <Slider {...setting}>
           {arrayOfSlides.map((item, index) => (
