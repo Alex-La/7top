@@ -280,10 +280,4 @@ router.get("/winners", async (req, res) => {
   }
 });
 
-router.post("/sell", (req, res) => {
-  const io = req.app.get("io");
-  io.emit("sell", req.body);
-  res.status(200);
-});
-
 module.exports = router;

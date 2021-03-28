@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { changeLanguage } from "../redux/actions/mainActions";
+import { useHistory } from "react-router-dom";
 
 import "../css/main.css";
 import "../css/preloader.css";
@@ -15,10 +16,14 @@ import Preloader from "../Components/Preloader";
 
 const StartPage = () => {
   const dispatch = useDispatch();
-  const { language, instance } = useSelector(({ language, tronWeb }) => ({
-    language,
-    instance: tronWeb.instance,
-  }));
+  const history = useHistory();
+  const { me, language, instance } = useSelector(
+    ({ me, language, tronWeb }) => ({
+      me,
+      language,
+      instance: tronWeb.instance,
+    })
+  );
   const languages = [
     { lang: "german", margin: 205 },
     { lang: "russian", margin: 185 },
@@ -41,6 +46,10 @@ const StartPage = () => {
         "С помощью децентрализованной блокчейн сети Tron Вы сможете поучаствовать в четной лотерее, четность определения победителя которой, можно легко проверить. Вы можете пообщаться с другими игроками в телеграмм."
       );
   }, []);
+
+  useEffect(() => {
+    if (me) history.push("/allgames");
+  }, [me, history]);
 
   if (language === null) return <Preloader />;
 

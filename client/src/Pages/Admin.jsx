@@ -1,88 +1,53 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import useHttp from "../hooks/http.hook";
+
+import Account from "../Components/Account";
 
 import "../css/game.css";
 import "../css/account.css";
 
-import Account from "../Components/Account";
-
-import Month from "../Components/Admin/Month";
-import Year from "../Components/Admin/Year";
-
 const Admin = () => {
-  const me = useSelector(({ me }) => me);
-  const tronWeb = useSelector(({ tronWeb }) => tronWeb);
-  const { request } = useHttp();
   const [winNumber, setWinNumber] = useState();
-
-  const [admin, isAdmin] = useState(true);
-
-  useEffect(() => {
-    if (tronWeb.instance)
-      (async () => {
-        let data = await tronWeb.instance.contract().at(tronWeb.SevenTOP);
-        data = await data.winNumberOne().call();
-        data = tronWeb.instance.toDecimal(data._hex);
-        setWinNumber(data);
-      })();
-  }, [tronWeb]);
+  const { instance, SevenTOP } = useSelector(({ tronWeb }) => tronWeb);
 
   useEffect(() => {
-    if (!admin) window.location.replace("/");
-  }, [admin]);
-
-  useEffect(() => {
-    if (me)
-      (async () => {
-        try {
-          const result = await request(
-            "/api/auth/admin",
-            "POST",
-            { userId: me._id },
-            {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            }
-          );
-          isAdmin(result.admin);
-        } catch (e) {
-          isAdmin(false);
-        }
-      })();
-    else isAdmin(false);
-  }, [me]);
+    (async () => {
+      if (instance) {
+        const sevenTOP = await instance.contract().at(SevenTOP);
+        let number = await sevenTOP.winNumberOne().call();
+        number = instance.toDecimal(number._hex);
+        setWinNumber(number);
+      }
+    })();
+  }, [instance, SevenTOP]);
 
   return (
-    <>
-      <div className="row game">
-        <section>
-          <Account backBtn showWallet />
-        </section>
-        <p className="p2">{winNumber}</p>
-        <section>
-          <div className="container">
-            <div className="acc-wrap">
-              <Month />
-            </div>
+    <div className="row game">
+      <section>
+        <Account backBtn showWallet />
+      </section>
+      <p className="p2">{winNumber}</p>
+      <section>
+        <div className="container">
+          <div className="acc-wrap">
+            {/* <WeekFive />
+        <WeekFivteen /> */}
           </div>
-        </section>
-        <br />
-        {/* <section>
-          <div className="container">
-            <div className="acc-wrap">
-              <Year />
-            </div>
-          </div>
-        </section> */}
-      </div>
-      {!tronWeb && (
-        <span
-          style={{ position: "absolute", color: "red", bottom: 5, right: 5 }}
-        >
-          Check TronLink!
-        </span>
-      )}
-    </>
+        </div>
+      </section>
+      <br />
+      <section>
+        <div className="container">
+          <div className="acc-wrap">{/* <Month /> */}</div>
+        </div>
+      </section>
+      <br />
+      <section>
+        <div className="container">
+          <div className="acc-wrap">{/* <Year /> */}</div>
+        </div>
+      </section>
+    </div>
   );
 };
 

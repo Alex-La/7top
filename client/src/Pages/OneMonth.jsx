@@ -5,9 +5,7 @@ import "../css/game.css";
 import useHttp from "../hooks/http.hook";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentContract } from "../redux/actions/tronActions";
-import io from "socket.io-client";
 
-import Banner from "../Components/Game/Banner";
 import Game from "../Components/Game/Game";
 
 const OneMonth = () => {
@@ -25,35 +23,7 @@ const OneMonth = () => {
   const { request } = useHttp();
   const dispatch = useDispatch();
   const language = useSelector(({ language }) => language);
-  const tronWeb = useSelector(({ tronWeb }) => tronWeb);
   const [time, setTime] = useState(0);
-  const [bannerCfg, setBannerCfg] = useState({
-    showBanner: false,
-    showButtons: true,
-  });
-
-  useEffect(() => {
-    const socket = io();
-    socket.on("sell", (data) => {
-      console.log(data);
-      if ("month5" in data)
-        setBannerCfg({ showBanner: !data.month5, showButtons: data.month5 });
-      if ("drawing" in data) {
-        window.location.reload();
-      }
-    });
-
-    return () => socket.off("sell");
-  }, []);
-
-  useEffect(() => {
-    if (tronWeb.instance)
-      (async () => {
-        let sell = await tronWeb.instance.contract().at(tronWeb.Month5);
-        sell = await sell.sellTickets().call();
-        setBannerCfg({ showBanner: !sell, showButtons: sell });
-      })();
-  }, [tronWeb]);
 
   useEffect(() => {
     dispatch(setCurrentContract({ contract: "Month5" }));
@@ -80,15 +50,10 @@ const OneMonth = () => {
 
   return (
     <div className="row game">
-      {bannerCfg.showBanner && (
-        <Banner
-          onClose={() => setBannerCfg((cfg) => ({ ...cfg, showBanner: false }))}
-        />
-      )}
       <Game
         title={language.result.page.allgames[6]}
         time={time}
-        showButtons={bannerCfg.showButtons}
+        showButtons={true}
       >
         <Slider {...setting}>
           {arrayOfSlides.map((item, index) => (
