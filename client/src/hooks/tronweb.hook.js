@@ -68,7 +68,7 @@ const useTronWeb = () => {
       dispatch(getBalance({ contract }));
       setMyTickets([owners.total, ...myTickets]);
     } catch (e) {
-      message(e);
+      message(typeof e === "object" ? e.message : e);
     }
   }, [checkTronWeb, dispatch, me, contract, message]);
 

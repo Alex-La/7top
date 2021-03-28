@@ -149,6 +149,7 @@ router.get("/winners/:contract", async (req, res) => {
     for (let i in names) {
       const trans = await trongrid.contract.getEvents(gamesAddress[contract], {
         event_name: names[i],
+        limit: 1,
       });
       if (trans.data[0])
         data.push({
@@ -157,6 +158,9 @@ router.get("/winners/:contract", async (req, res) => {
           user: tronweb.address.fromHex(trans.data[0].result.user),
         });
     }
+
+    if (data[1] && data[0].timestapmt - data[1].timestapmt >= 10)
+      data.splice(1, 1);
 
     const result = [];
     for (let i in data) {

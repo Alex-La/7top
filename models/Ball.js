@@ -7,4 +7,4 @@ const schema = new Schema({
   players: { type: Number, required: false },
 });
 
-module.exports = model("Shary", schema);
+module.exports = model("Ball", schema);
