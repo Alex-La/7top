@@ -286,4 +286,24 @@ router.get("/winners", async (req, res) => {
   }
 });
 
+router.get("/balls/:contract", async (req, res) => {
+  try {
+    const players = await (await games[req.params.contract])
+      .getTicketsLength()
+      .call();
+
+    const balls = await (await addresses.SevenTOP).winNumberOne().call();
+
+    const result = await Ball.findOneAndUpdate(
+      { name: req.params.contract },
+      { balls, players },
+      { useFindAndModify: false }
+    );
+    if (result) res.json({ message: "Success!" });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "Server error!" });
+  }
+});
+
 module.exports = router;
