@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-const Pannel = ({ contract, sellTicks, setSellTicks }) => {
+const Pannel = ({ contract, sellTicks, setSellTicks, name }) => {
   const instance = useSelector(({ tronWeb }) => tronWeb.instance);
 
   const [sum, setSum] = useState(0);
@@ -40,7 +40,7 @@ const Pannel = ({ contract, sellTicks, setSellTicks }) => {
       </div>
       <div className="col s4">
         <p className="p2">
-          Week 5{" "}
+          {name}{" "}
           <span style={{ color: sellTicks ? "greenyellow" : "red" }}>
             ({sellTicks ? "true" : "false"})
           </span>

@@ -4,7 +4,7 @@ import useMessage from "../hooks/message.hook";
 import { NavLink, useHistory } from "react-router-dom";
 import "../css/register.css";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getMe } from "../redux/actions/mainActions";
 
 import Img1 from "../img/img1.png";
@@ -14,6 +14,7 @@ const AuthPage = () => {
   const history = useHistory();
   const message = useMessage();
   const dispatch = useDispatch();
+  const { RefStorage } = useSelector(({ tronWeb }) => tronWeb);
   const { loading, request, error, clearError } = useHttp();
   const [form, setForm] = useState({
     name: "",
@@ -50,9 +51,7 @@ const AuthPage = () => {
   const registerHandler = async (e) => {
     e.preventDefault();
     try {
-      const RefStorage = await window.tronWeb
-        .contract()
-        .at("TA2kGcLfZJhW8Mf6nBEjAQL2HLS8KwToE6");
+      const refStorage = await window.tronWeb.contract().at(RefStorage);
       const data = await request("/api/auth/register/valid", "POST", {
         ...form,
       });
@@ -61,9 +60,9 @@ const AuthPage = () => {
       if (data.message === "User is valid!") {
         try {
           if (data.friendId.length !== 0) {
-            await RefStorage.addReferer(data.friendId).send();
+            await refStorage.addReferer(data.friendId).send();
           } else {
-            await RefStorage.regNewUser().send();
+            await refStorage.regNewUser().send();
           }
         } catch (e) {
           if (e.error === "CONTRACT_VALIDATE_ERROR") return message(e.message);

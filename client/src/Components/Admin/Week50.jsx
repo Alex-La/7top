@@ -5,18 +5,18 @@ import Pannel from "./Control/Pannel";
 import Form from "./Control/Form";
 import Buttons from "./Control/Buttons";
 
-const Week5 = ({ getWinNumber }) => {
-  const { instance, Everyweek5 } = useSelector(({ tronWeb }) => tronWeb);
+const Week50 = ({ getWinNumber }) => {
+  const { instance, Everyweek50 } = useSelector(({ tronWeb }) => tronWeb);
   const [contract, setContract] = useState(null);
   const [sellTicks, setSellTicks] = useState(false);
 
   useEffect(() => {
     if (instance)
       (async () => {
-        const contract = await instance.contract().at(Everyweek5);
+        const contract = await instance.contract().at(Everyweek50);
         setContract(contract);
       })();
-  }, [instance, Everyweek5]);
+  }, [instance, Everyweek50]);
 
   const [form, setForm] = useState({
     one: "",
@@ -33,7 +33,7 @@ const Week5 = ({ getWinNumber }) => {
         contract={contract}
         sellTicks={sellTicks}
         setSellTicks={setSellTicks}
-        name="Week5"
+        name="Week50"
       />
       <Form form={form} setForm={setForm} />
       <Buttons
@@ -41,10 +41,10 @@ const Week5 = ({ getWinNumber }) => {
         getWinNumber={getWinNumber}
         sellTicks={sellTicks}
         setSellTicks={setSellTicks}
-        name="Everyweek5"
+        name="Everyweek50"
       />
     </>
   );
 };
 
-export default Week5;
+export default Week50;

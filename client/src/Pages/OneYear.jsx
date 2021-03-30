@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
+import io from "socket.io-client";
 import "../css/game.css";
 
 import useHttp from "../hooks/http.hook";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentContract } from "../redux/actions/tronActions";
-import io from "socket.io-client";
 
 import Game from "../Components/Game/Game";
 import Banner from "../Components/Game/Banner";
@@ -34,6 +34,19 @@ const OneYear = () => {
     showBanner: false,
     showButtons: true,
   });
+
+  useEffect(() => {
+    const socket = io();
+    socket.on("sell", (data) => {
+      if (contract in data)
+        setBannerCfg({
+          showBanner: !data[contract],
+          showButtons: data[contract],
+        });
+      if ("drawing" in data) window.location.reload();
+    });
+    return () => socket.off("sell");
+  }, [contract]);
 
   useEffect(() => {
     if (tronWeb.instance)
