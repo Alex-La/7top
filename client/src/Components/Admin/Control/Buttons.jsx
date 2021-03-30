@@ -31,13 +31,16 @@ const Buttons = ({ form, getWinNumber, name, setSellTicks }) => {
     if (tronWeb.instance)
       try {
         const contract = await tronWeb.instance.contract().at(tronWeb[name]);
-        const sell = await contract.sellOrStopSellTickets().send();
-        setSellTicks((ticks) => !ticks);
-        await request("/api/tron/sell", "POST", { week5: sell });
+        await contract.sellOrStopSellTickets().send();
+        setSellTicks((ticks) => {
+          (async () =>
+            await request("/api/tron/sell", "POST", { [name]: !ticks }))();
+          return !ticks;
+        });
       } catch (e) {
         console.log(e);
       }
-  }, [tronWeb, setSellTicks]);
+  }, [tronWeb, setSellTicks, request]);
 
   return (
     <div className="row">
