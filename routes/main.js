@@ -56,7 +56,7 @@ router.get("/allusers", async (req, res) => {
         ? allUsers[allUsers.length - 1]._id !== users[users.length - 1]._id
         : false,
       allUsers: allUsers.map(({ _doc }) => ({
-        ..._doc,
+        ...(({ password, friendId, ...rest }) => rest)(_doc),
         avatar: getAvatarPath({ id: _doc._id }),
       })),
     });
