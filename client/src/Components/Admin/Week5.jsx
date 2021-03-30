@@ -8,6 +8,7 @@ import Buttons from "./Control/Buttons";
 const Week5 = ({ getWinNumber }) => {
   const { instance, Everyweek5 } = useSelector(({ tronWeb }) => tronWeb);
   const [contract, setContract] = useState(null);
+  const [sellTicks, setSellTicks] = useState(false);
 
   useEffect(() => {
     if (instance)
@@ -28,9 +29,18 @@ const Week5 = ({ getWinNumber }) => {
 
   return (
     <>
-      <Pannel contract={contract} />
+      <Pannel
+        contract={contract}
+        sellTicks={sellTicks}
+        setSellTicks={setSellTicks}
+      />
       <Form form={form} setForm={setForm} />
-      <Buttons form={form} getWinNumber={getWinNumber} name="Everyweek5" />
+      <Buttons
+        form={form}
+        getWinNumber={getWinNumber}
+        setSellTicks={setSellTicks}
+        name="Everyweek5"
+      />
     </>
   );
 };

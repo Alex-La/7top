@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-const Pannel = ({ contract }) => {
+const Pannel = ({ contract, sellTicks, setSellTicks }) => {
   const instance = useSelector(({ tronWeb }) => tronWeb.instance);
 
   const [sum, setSum] = useState(0);
-  const [sellTicks, setSellTicks] = useState(false);
   const [ticksCount, setTicksCount] = useState(0);
 
   useEffect(() => {

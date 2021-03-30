@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import useMessage from "../../../hooks/message.hook";
 import useHttp from "../../../hooks/http.hook";
 
-const Buttons = ({ form, getWinNumber, name }) => {
+const Buttons = ({ form, getWinNumber, name, setSellTicks }) => {
   const tronWeb = useSelector(({ tronWeb }) => tronWeb);
 
   const message = useMessage();
@@ -30,13 +30,14 @@ const Buttons = ({ form, getWinNumber, name }) => {
   const sellOrStopSellTickets = useCallback(async () => {
     if (tronWeb.instance)
       try {
-        const contract = tronWeb.instance.contract().at(tronWeb[name]);
+        const contract = await tronWeb.instance.contract().at(tronWeb[name]);
         const sell = await contract.sellOrStopSellTickets().send();
+        setSellTicks((ticks) => !ticks);
         await request("/api/tron/sell", "POST", { week5: sell });
       } catch (e) {
         console.log(e);
       }
-  }, [tronWeb]);
+  }, [tronWeb, setSellTicks]);
 
   return (
     <div className="row">
