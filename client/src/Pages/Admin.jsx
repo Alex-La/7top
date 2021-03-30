@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import useHttp from "../hooks/http.hook";
 
 import Account from "../Components/Account";
 import Week5 from "../Components/Admin/Week5";
@@ -11,8 +12,12 @@ import "../css/game.css";
 import "../css/account.css";
 
 const Admin = () => {
+  const { request } = useHttp();
+
   const [winNumber, setWinNumber] = useState();
+  const [admin, setAdmin] = useState(false);
   const { instance, SevenTOP } = useSelector(({ tronWeb }) => tronWeb);
+  const me = useSelector(({ me }) => me);
 
   const getWinNumber = useCallback(async () => {
     if (instance) {
@@ -26,6 +31,49 @@ const Admin = () => {
   useEffect(() => {
     getWinNumber();
   }, [getWinNumber]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        if (instance && me) {
+          const result = await request(
+            "/api/auth/admin",
+            "POST",
+            {
+              userId: me._id,
+            },
+            { Authorization: `Bearer ${localStorage.getItem("token")}` }
+          );
+
+          if (result.admin && me.wallet === instance.defaultAddress.base58)
+            setAdmin(result.admin);
+          else setAdmin(result.admin);
+        }
+      } catch (e) {}
+    })();
+  }, [instance, me, request]);
+
+  if (!instance)
+    return (
+      <p
+        style={{
+          color: "white",
+        }}
+      >
+        Check TronLink
+      </p>
+    );
+
+  if (!admin)
+    return (
+      <p
+        style={{
+          color: "white",
+        }}
+      >
+        You are not an admin
+      </p>
+    );
 
   return (
     <div className="row game">
