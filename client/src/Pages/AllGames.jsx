@@ -54,7 +54,7 @@ const AllGames = () => {
 
   const Timer = useCallback(
     ({ time }) => <AllGamesTimer initialTime={time} />,
-    []
+    [time]
   );
 
   if (!allgames) return <Preloader />;
