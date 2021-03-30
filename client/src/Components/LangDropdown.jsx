@@ -53,6 +53,7 @@ const LangDropdown = () => {
       >
         {arr.map((c, i) => (
           <li
+            key={i}
             onClick={() => setCountry(arr[i])}
             style={{
               display: "flex",
