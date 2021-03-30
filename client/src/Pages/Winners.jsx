@@ -32,7 +32,7 @@ const Winners = () => {
 
   useEffect(() => {
     if (!total) dispatch(getAllWinners());
-  }, [total, getAllWinners]);
+  }, [total, dispatch]);
 
   const loadMore = () => dispatch(loadMoreAllWinners(cursor));
 

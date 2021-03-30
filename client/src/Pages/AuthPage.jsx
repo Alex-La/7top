@@ -82,7 +82,6 @@ const AuthPage = () => {
         name,
       });
       message(result.message);
-      console.log("Data", result);
       await loginHandler();
     } catch (e) {}
   };

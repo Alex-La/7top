@@ -78,7 +78,8 @@ const StartPage = () => {
 
           <div className="video">
             <iframe
-              allowFullScreen={true}
+              allowFullScreen
+              title="video"
               src={
                 Object.keys(videos).indexOf(language.result.language) > -1
                   ? videos[language.result.language]
@@ -168,6 +169,7 @@ const StartPage = () => {
             <a
               href="https://t.me/joinchat/HSApdhx_OO301lltbkyfhw"
               target="_blank"
+              rel="noreferrer"
               className="telegram"
             >
               <i className="fa fa-telegram" aria-hidden="true"></i>
@@ -178,6 +180,7 @@ const StartPage = () => {
             <a
               href="https://www.youtube.com/channel/UCnCfdRrnlF8LZWNe0N44uog/"
               target="_blank"
+              rel="noreferrer"
               className="tube"
             >
               <i className="fa fa-youtube-play" aria-hidden="true"></i>
@@ -186,15 +189,11 @@ const StartPage = () => {
           <a
             href="https://ychanger.net/?R=16100409488763"
             target="_blank"
+            rel="noreferrer"
             style={{ textAlign: "center", justifyContent: "center" }}
           >
             <img src={Banner} alt="banner" style={{ maxWidth: 320 }} />
           </a>
-          {/* <div className="nav">
-                          <a href="#">Условия использования</a>
-                          <a href="#">Адрес</a>
-                          <a href="#">Открытый источник</a>
-                      </div> */}
         </div>
       </section>
 

@@ -28,8 +28,9 @@ export const ImageUpload = ({ img, id, token }) => {
       case "bmp":
       case "gif":
         return true;
+      default:
+        return false;
     }
-    return false;
   };
 
   const handleSubmit = async (file) => {
@@ -72,7 +73,7 @@ export const ImageUpload = ({ img, id, token }) => {
           type="file"
         />
         <div className={styles.imgPreview}>
-          <img src={image} style={{ objectFit: "cover" }} />
+          <img src={image} style={{ objectFit: "cover" }} alt="avatar" />
         </div>
       </div>
     </form>

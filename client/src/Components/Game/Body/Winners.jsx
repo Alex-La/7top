@@ -1,6 +1,6 @@
 import { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getWinners } from "../../../redux/actions/tronActions";
+import { getWinners, getBalls } from "../../../redux/actions/tronActions";
 
 import Win from "../../../img/win.png";
 import Place1 from "../../../img/place1.png";
@@ -15,9 +15,35 @@ const ReturnDate = ({ time }) => {
   );
 };
 
+const ReturnBalls = ({ balls, timestapmt, place }) => {
+  useEffect(() => {}, [balls, timestapmt]);
+  if (Object.keys(balls).length === 0) return "";
+  if (Math.abs(balls.timestapmt - parseInt(timestapmt, 10) * 1000) >= 10000)
+    return "";
+  return (
+    <div style={{ textAlign: "center", color: "orange" }}>
+      {place === 0
+        ? balls.balls.match(/.{1,2}/g).map((b) => `(${b})`)
+        : balls.balls
+            .slice()
+            .reverse()
+            .map((b) => `(${b.reverse_string()})`)}{" "}
+      mod {balls.players} ={" "}
+      {place === 0
+        ? balls.balls.match(/.{1,2}/g).join("") % balls.players
+        : balls.balls
+            .slice()
+            .reverse()
+            .map((b) => b.reverse_string())
+            .join("") % balls.players}
+    </div>
+  );
+};
+
 const Winners = () => {
   const dispatch = useDispatch();
   const language = useSelector(({ language }) => language);
+  const balls = useSelector(({ balls }) => balls);
   const { winners, contract } = useSelector(({ winners, contract }) => ({
     winners,
     contract,
@@ -25,6 +51,10 @@ const Winners = () => {
 
   useEffect(() => {
     if (contract) dispatch(getWinners(contract));
+  }, [contract, dispatch]);
+
+  useEffect(() => {
+    dispatch(getBalls(contract));
   }, [contract, dispatch]);
 
   return (
@@ -38,7 +68,11 @@ const Winners = () => {
         <div key={index} className="winners_">
           <div className="avatar-win">
             <div className="elipse4">
-              <img src={winner.user.avatar} style={{ objectFit: "cover" }} />
+              <img
+                src={winner.user.avatar}
+                style={{ objectFit: "cover" }}
+                alt="avatar"
+              />
             </div>
           </div>
           <div className="avatar-title">
@@ -55,6 +89,11 @@ const Winners = () => {
                 {index + 1} Place <span>{winner.amount} $</span>
               </p>
             </div>
+            <ReturnBalls
+              balls={balls}
+              timestapmt={winner.timestapmt}
+              place={index}
+            />
           </div>
         </div>
       ))}

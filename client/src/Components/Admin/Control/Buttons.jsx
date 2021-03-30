@@ -28,7 +28,7 @@ const Buttons = ({ form, getWinNumber, name, setSellTicks, sellTicks }) => {
         message(e);
       }
     }
-  }, [tronWeb, message, request, sellTicks]);
+  }, [tronWeb, message, request, sellTicks, name]);
 
   const handleSend = useCallback(async () => {
     if (tronWeb.instance && tronWeb.SevenTOP) {
@@ -47,7 +47,7 @@ const Buttons = ({ form, getWinNumber, name, setSellTicks, sellTicks }) => {
         message(e);
       }
     }
-  }, [tronWeb, form, getWinNumber, sellTicks]);
+  }, [tronWeb, form, getWinNumber, sellTicks, message, name, request]);
 
   const sellOrStopSellTickets = useCallback(async () => {
     if (tronWeb.instance)
@@ -62,7 +62,7 @@ const Buttons = ({ form, getWinNumber, name, setSellTicks, sellTicks }) => {
       } catch (e) {
         console.log(e);
       }
-  }, [tronWeb, setSellTicks, request]);
+  }, [tronWeb, setSellTicks, request, name]);
 
   return (
     <div className="row">

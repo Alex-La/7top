@@ -22,7 +22,7 @@ const Pannel = ({ contract, sellTicks, setSellTicks, name }) => {
         const sell = await contract.sellTickets().call();
         setSellTicks(sell);
       })();
-  }, [contract]);
+  }, [contract, setSellTicks]);
 
   useEffect(() => {
     if (instance && contract)

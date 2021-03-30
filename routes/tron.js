@@ -160,8 +160,6 @@ router.get("/winners/:contract", async (req, res) => {
         });
     }
 
-    console.log(data);
-
     if (data[1] && data[0].timestapmt - data[1].timestapmt >= 1000)
       data.splice(1, 1);
 
@@ -301,6 +299,30 @@ router.get("/balls/:contract", async (req, res) => {
       { useFindAndModify: false }
     );
     if (result) res.json({ message: "Success!" });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "Server error!" });
+  }
+});
+
+router.get("/balls/list/all", async (_, res) => {
+  try {
+    const listBall = await ListBall.find();
+    if (listBall) res.json(listBall);
+    else res.json({ message: "Mongo error!" });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "Server error!" });
+  }
+});
+
+router.get("/balls/list/:contract", async (req, res) => {
+  try {
+    const listBall = await ListBall.find({ name: req.params.contract })
+      .limit(1)
+      .sort({ _id: -1 });
+    if (listBall) res.json(listBall);
+    else res.json({ message: "Mongo error!" });
   } catch (e) {
     console.log(e);
     res.status(500).json({ message: "Server error!" });

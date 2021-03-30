@@ -36,7 +36,7 @@ const RestorePassword = () => {
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, []);
+  }, [isSent]);
 
   const handleClick = async (e) => {
     e.preventDefault();

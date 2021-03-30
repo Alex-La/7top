@@ -23,7 +23,7 @@ const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
 
   useEffect(() => {
     if (!me) dispatch(getMe());
-  }, [dispatch, getMe, me]);
+  }, [dispatch, me]);
 
   useEffect(() => {
     if (me)
@@ -42,7 +42,7 @@ const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
           console.log(e.message);
         }
       })();
-  }, [me]);
+  }, [me, request]);
 
   useEffect(() => {
     if (!allUsersLength) dispatch(getUsers());
@@ -50,7 +50,7 @@ const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
 
   useEffect(() => {
     if (me && !allUsersLength) dispatch(getFriends(me.wallet));
-  }, [me]);
+  }, [me, allUsersLength, dispatch]);
 
   const logoutHandler = () => localStorage.removeItem("token");
 
@@ -132,6 +132,7 @@ const Account = ({ backBtn = false, showWallet = false, winnerList }) => {
                   href="https://t.me/joinchat/HSApdhx_OO301lltbkyfhw"
                   className={styles.chat}
                   target="_blank"
+                  rel="noreferrer"
                 >
                   <i className="fa fa-telegram" aria-hidden="true"></i>
                   <span>{language.result.page.account[6]}</span>

@@ -32,7 +32,7 @@ const NewPassword = () => {
         history.push("/");
       }
     })();
-  }, []);
+  }, [history, request, token]);
 
   const confirmPassword = async (e) => {
     e.preventDefault();

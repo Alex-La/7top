@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 import Money1 from "../../img/money1.png";
 
-export default ({ onClose }) => {
+const Banner = ({ onClose }) => {
   const total = useSelector(({ owners }) => owners.total);
   return (
     <div className={styles.banner}>
@@ -26,3 +26,5 @@ export default ({ onClose }) => {
     </div>
   );
 };
+
+export default Banner;

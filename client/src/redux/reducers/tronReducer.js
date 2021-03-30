@@ -24,7 +24,6 @@ export const owners = (
 ) => {
   switch (action.type) {
     case "OWNERS":
-      console.log("OWNERS");
       return action.payload;
     case "LOAD_MORE_OWNERS":
       return {
@@ -54,6 +53,17 @@ export const winners = (state = [], action) => {
       return [];
     case "WINNERS":
       return action.payload;
+    default:
+      return state;
+  }
+};
+
+export const balls = (state = {}, action) => {
+  switch (action.type) {
+    case "BALLS_PANDING":
+      return {};
+    case "BALLS":
+      return action.payload[0];
     default:
       return state;
   }

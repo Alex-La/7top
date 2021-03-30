@@ -49,3 +49,14 @@ export const getWinners = (contract) => async (dispatch) => {
     .then((res) => dispatch({ type: "WINNERS", payload: res }))
     .catch(() => dispatch({ type: "WINNERS_PANDING" }));
 };
+
+export const getBalls = (contract) => async (dispatch) => {
+  fetch(`/api/tron/balls/list/${contract}`)
+    .then((response) => {
+      dispatch({ type: "BALLS_PANDING" });
+      if (!response.ok) throw new Error(response.statusText);
+      return response.json();
+    })
+    .then((res) => dispatch({ type: "BALLS", payload: res }))
+    .catch(() => dispatch({ type: "BALLS_PANDING" }));
+};

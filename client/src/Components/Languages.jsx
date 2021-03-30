@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default ({ changeLanguage, languages }) => {
+const Languages = ({ changeLanguage, languages }) => {
   const [active, setActive] = useState(3);
   return (
     <div className="languages">
@@ -19,3 +19,5 @@ export default ({ changeLanguage, languages }) => {
     </div>
   );
 };
+
+export default Languages;

@@ -9,7 +9,7 @@ const useTronWeb = () => {
 
   const message = useMessage();
   const dispatch = useDispatch();
-  const { tronWeb, me, contract, owners } = useSelector(
+  const { tronWeb, me, contract } = useSelector(
     ({ tronWeb, me, contract, owners }) => ({
       tronWeb,
       me,
@@ -22,7 +22,7 @@ const useTronWeb = () => {
     if (me) return false;
     else message("Please, authorize");
     return true;
-  }, [me]);
+  }, [me, message]);
 
   const checkTronWeb = useCallback(() => {
     if (tronWeb.instance === null) {
@@ -53,7 +53,7 @@ const useTronWeb = () => {
         setMyTickets(arrayOfTicks);
       } catch (e) {}
     })();
-  }, [checkTronWeb, me, contract]);
+  }, [checkTronWeb, me, contract, tronWeb]);
 
   const buyTicket = useCallback(async () => {
     try {
@@ -70,7 +70,7 @@ const useTronWeb = () => {
     } catch (e) {
       message(typeof e === "object" ? e.message : e);
     }
-  }, [checkTronWeb, dispatch, me, contract, message]);
+  }, [checkTronWeb, checkAuth, dispatch, me, contract, message, tronWeb]);
 
   return { buyTicket, myTickets };
 };

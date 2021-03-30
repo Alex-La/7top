@@ -62,6 +62,7 @@ const LangDropdown = () => {
           >
             <img
               src={c.src}
+              alt={c.name}
               width={40}
               height={40}
               style={{ marginRight: 5 }}
