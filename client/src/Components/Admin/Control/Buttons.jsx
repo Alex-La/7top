@@ -3,11 +3,32 @@ import { useSelector } from "react-redux";
 import useMessage from "../../../hooks/message.hook";
 import useHttp from "../../../hooks/http.hook";
 
-const Buttons = ({ form, getWinNumber, name, setSellTicks }) => {
+const Buttons = ({ form, getWinNumber, name, setSellTicks, sellTicks }) => {
   const tronWeb = useSelector(({ tronWeb }) => tronWeb);
 
   const message = useMessage();
   const { request } = useHttp();
+
+  const drawing = useCallback(async () => {
+    if (tronWeb.instance) {
+      if (sellTicks) return message("Stop selling tickets");
+      try {
+        const contract = await tronWeb.instance.contract().at(tronWeb[name]);
+        await contract.drawing().send({
+          feeLimit: 200_000_000,
+        });
+        const result = await request(`/api/tron/balls/list/${name}`, "POST", {
+          time: Date.now(),
+        });
+        if (result) {
+          message(result.message);
+          await request("/api/tron/sell", "POST", { drawing: true });
+        }
+      } catch (e) {
+        message(e);
+      }
+    }
+  }, [tronWeb, message, request, sellTicks]);
 
   const handleSend = useCallback(async () => {
     if (tronWeb.instance && tronWeb.SevenTOP) {
@@ -45,7 +66,11 @@ const Buttons = ({ form, getWinNumber, name, setSellTicks }) => {
   return (
     <div className="row">
       <div className="col s3">
-        <button className="acc-btn acc-darwing" style={{ float: "right" }}>
+        <button
+          onClick={drawing}
+          className="acc-btn acc-darwing"
+          style={{ float: "right" }}
+        >
           DRAWING
         </button>
       </div>

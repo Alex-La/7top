@@ -38,6 +38,7 @@ const Week5 = ({ getWinNumber }) => {
       <Buttons
         form={form}
         getWinNumber={getWinNumber}
+        sellTicks={sellTicks}
         setSellTicks={setSellTicks}
         name="Everyweek5"
       />

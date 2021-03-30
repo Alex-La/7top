@@ -43,7 +43,9 @@ const OneWeek = () => {
           showBanner: !data[contract],
           showButtons: data[contract],
         });
+      if ("drawing" in data) window.location.reload();
     });
+    return () => socket.off("sell");
   }, [contract]);
 
   useEffect(() => {

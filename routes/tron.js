@@ -3,6 +3,7 @@ const TronWeb = require("tronweb");
 const TronGrid = require("trongrid");
 const User = require("../models/User");
 const Ball = require("../models/Ball");
+const ListBall = require("../models/ListBall");
 const { paginateResults, getAvatarPath } = require("../utils");
 
 const TRONGRID_API = "https://api.shasta.trongrid.io";
@@ -300,6 +301,26 @@ router.get("/balls/:contract", async (req, res) => {
       { useFindAndModify: false }
     );
     if (result) res.json({ message: "Success!" });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "Server error!" });
+  }
+});
+
+router.post("/balls/list/:contract", async (req, res) => {
+  try {
+    const ball = await Ball.findOne({ name: req.params.contract });
+    if (ball) {
+      const listItem = new ListBall({
+        name: ball.name,
+        balls: ball.balls,
+        players: ball.players,
+        timestapmt: req.body.time,
+      });
+      await listItem.save();
+      if (listItem) res.json({ message: "Success!" });
+      else res.status(400).json({ messsage: "Mongo error!" });
+    } else res.status(404).json({ message: "Ball not found" });
   } catch (e) {
     console.log(e);
     res.status(500).json({ message: "Server error!" });
