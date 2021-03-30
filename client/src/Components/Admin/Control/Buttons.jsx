@@ -32,6 +32,7 @@ const Buttons = ({ form, getWinNumber, name, setSellTicks, sellTicks }) => {
 
   const handleSend = useCallback(async () => {
     if (tronWeb.instance && tronWeb.SevenTOP) {
+      if (sellTicks) return message("Stop selling tickets");
       let string = "";
       for (const [_, value] of Object.entries(form)) string += value;
       try {
@@ -46,7 +47,7 @@ const Buttons = ({ form, getWinNumber, name, setSellTicks, sellTicks }) => {
         message(e);
       }
     }
-  }, [tronWeb, form, getWinNumber]);
+  }, [tronWeb, form, getWinNumber, sellTicks]);
 
   const sellOrStopSellTickets = useCallback(async () => {
     if (tronWeb.instance)
