@@ -224,24 +224,22 @@ router.get("/friends/:wallet", async (req, res) => {
 
 router.get("/winners", async (req, res) => {
   try {
-    const names = ["firstWinner", "secondWinner"];
-
     const trxPrice = tronweb.toDecimal(
       (await addresses.SevenTOP.trxPrice().call())._hex
     );
 
-    const data = [];
-    for (const [_, value] of Object.entries(gamesAddress)) {
-      for (let i in names) {
-        const trans = await trongrid.contract.getEvents(value, {
-          event_name: names[i],
-          limit: 50,
-        });
-        data.push(...trans.data);
+    const data = await trongrid.contract.getEvents(
+      gamesAddress[req.query.contract],
+      {
+        event_name: req.query.name,
+        max_timestamp:
+          req.query.after.length === 0 ? req.query.after : req.query.after + 1,
+        limit: 10,
       }
-    }
+    );
 
-    const result = data.map(({ event_name, result }) => ({
+    const result = data.data.map(({ event_name, block_timestamp, result }) => ({
+      block_timestamp,
       event_name,
       amount: ((result.amount * trxPrice) / 1e12).toFixed(2),
       timestapmt: result.timestapmt,
@@ -261,23 +259,13 @@ router.get("/winners", async (req, res) => {
       }))(users.find(({ wallet }) => wallet === res.user)),
     }));
 
-    const pagResults = paginateResults({
-      results: results,
-      pageSize: 10,
-      after: req.query.after,
-      cursorKey: "timestapmt",
-    });
-
     res.json({
-      total: results.length,
-      cursor: pagResults.length
-        ? pagResults[pagResults.length - 1].timestapmt
+      cursor: results.length
+        ? results[results.length - 1].block_timestamp
         : null,
-      hasMore: pagResults.length
-        ? pagResults[pagResults.length - 1].timestapmt !==
-          results[results.length - 1].timestapmt
-        : false,
-      allWinners: pagResults,
+      currentContract: req.query.contract,
+      currentName: req.query.name,
+      winners: results,
     });
   } catch (e) {
     console.log(e);

@@ -164,11 +164,11 @@ export const friends = (state = friendsState, action) => {
 };
 
 const allWinnersState = {
-  total: undefined,
-  cursor: 0,
-  hasMore: false,
-  allWinners: [],
-  loading: false,
+  cursor: "",
+  currentContract: "LimitLottery5",
+  currentName: "FirstWinner",
+  winners: [],
+  loading: true,
   success: false,
 };
 export const allWinners = (state = allWinnersState, action) => {
@@ -180,11 +180,12 @@ export const allWinners = (state = allWinnersState, action) => {
     case "ALL_WINNERS_LOADING":
       return { ...state, loading: true };
     case "LOAD_MORE_ALL_WINNERS":
+      console.log(action.payload);
       return {
         ...action.payload,
         loading: false,
         success: true,
-        allWinners: [...state.allWinners, ...action.payload.allWinners],
+        winners: [...state.winners, ...action.payload.winners],
       };
     default:
       return state;

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "../css/allWinners.css";
 import "../css/people.css";
 
@@ -14,6 +14,27 @@ import Preloader from "../Components/Preloader";
 import Place1 from "../img/place1.png";
 import Place2 from "../img/place2.png";
 
+const returnCurrentContract = (number) => {
+  switch (number) {
+    case 0:
+      return "LimitLottery5";
+    case 1:
+      return "LimitLottery15";
+    case 2:
+      return "LimitLottery50";
+    case 3:
+      return "Everyweek5";
+    case 4:
+      return "Everyweek50";
+    case 5:
+      return "Month5";
+    case 6:
+      return "EveryYear5";
+    default:
+      return "LimitLottery5";
+  }
+};
+
 const Winners = () => {
   useEffect(() => {
     document.title = "Список победителей крипто лотереи 7top.org";
@@ -25,16 +46,42 @@ const Winners = () => {
       );
   }, []);
 
+  const [hasMore, setHasMore] = useState(true);
+  const [contract, setContract] = useState(0);
+  const [name, setName] = useState("FirstWinner");
+
   const dispatch = useDispatch();
-  const { allWinners, cursor, hasMore, loading, success, total } = useSelector(
-    ({ allWinners }) => allWinners
-  );
+  const {
+    cursor,
+    currentContract,
+    currentName,
+    winners,
+    loading,
+    success,
+  } = useSelector(({ allWinners }) => allWinners);
 
   useEffect(() => {
-    if (!total) dispatch(getAllWinners());
-  }, [total, dispatch]);
+    dispatch(getAllWinners());
+  }, [dispatch]);
 
-  const loadMore = () => dispatch(loadMoreAllWinners(cursor));
+  useEffect(() => {
+    if (currentName === "EveryYear5" && currentName === "SecondWinner")
+      setHasMore(false);
+  }, [currentContract, currentName]);
+
+  useEffect(() => {
+    if (!loading && !cursor) {
+      if (name === "FirstWinner") setName("SecondWinner");
+      if (name === "SecondWinner") {
+        setName("FirstWinner");
+        setContract((cont) => cont + 1);
+      }
+      loadMore();
+    }
+  }, [loading, cursor]);
+
+  const loadMore = () =>
+    dispatch(loadMoreAllWinners(returnCurrentContract(contract), name, cursor));
 
   const ReturnDate = ({ time }) => {
     const date = new Date(time * 1000);
@@ -49,15 +96,13 @@ const Winners = () => {
     );
   };
 
-  if (!total) return <Preloader />;
-
   return (
     <div className="people all-winners">
       <Account backBtn={true} />
       {success ? (
         <section>
           <div className="container">
-            {allWinners.map((winner, index) => (
+            {winners.map((winner, index) => (
               <div className="comp" key={index}>
                 <div className="elipse_">
                   <div className="elipse3_">

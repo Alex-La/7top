@@ -94,18 +94,26 @@ export const getAllWinners = () => async (dispatch) => {
   }
 };
 
-export const loadMoreAllWinners = (after) => async (dispatch) => {
+export const loadMoreAllWinners = (contract, name, after) => async (
+  dispatch
+) => {
   try {
     dispatch({ type: "ALL_WINNERS_LOADING" });
-    const res = await fetchAllWinners(after);
+    const res = await fetchAllWinners(contract, name, after);
     dispatch({ type: "LOAD_MORE_ALL_WINNERS", payload: res });
   } catch (e) {
     dispatch({ type: "ALL_WINNERS_SUCCESS" });
   }
 };
 
-const fetchAllWinners = async (after = -1) => {
-  const response = await fetch(`/api/tron/winners?after=${after}`);
+const fetchAllWinners = async (
+  contract = "LimitLottery5",
+  name = "FirstWinner",
+  after = ""
+) => {
+  const response = await fetch(
+    `/api/tron/winners?contract=${contract}&name=${name}&after=${after}`
+  );
   if (!response.ok) throw new Error(response.statusText);
   return response.json();
 };
