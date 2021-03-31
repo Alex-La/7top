@@ -180,7 +180,6 @@ export const allWinners = (state = allWinnersState, action) => {
     case "ALL_WINNERS_LOADING":
       return { ...state, loading: true };
     case "LOAD_MORE_ALL_WINNERS":
-      console.log(action.payload);
       return {
         ...action.payload,
         loading: false,
