@@ -73,6 +73,18 @@ const languageState = {
   },
 };
 
+export const currentLang = (
+  state = localStorage.getItem("lang") || "english",
+  action
+) => {
+  switch (action.type) {
+    case "CURRENT_LANG":
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
 export const me = (state = null, action) => {
   switch (action.type) {
     case "ME":

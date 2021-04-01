@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentLang } from "../redux/actions/mainActions";
 
 const Languages = ({ changeLanguage, languages }) => {
-  const [active, setActive] = useState(3);
+  const dispatch = useDispatch();
+  const currentLang = useSelector(({ currentLang }) => currentLang);
+
   return (
     <div className="languages">
       <ul>
         {languages.map((obj, i) => (
           <li
             key={i}
-            className={i === active ? "active" : ""}
+            className={obj.lang === currentLang ? "active" : ""}
             onClick={() => {
               changeLanguage(obj.lang);
-              setActive(i);
+              dispatch(setCurrentLang(obj.lang));
+              localStorage.setItem("lang", obj.lang);
             }}
           ></li>
         ))}

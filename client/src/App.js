@@ -14,7 +14,7 @@ function App() {
 
   useEffect(() => {
     dispatch(getMe());
-    dispatch(changeLanguage());
+    dispatch(changeLanguage(localStorage.getItem("lang")));
   }, [dispatch]);
 
   useEffect(() => {

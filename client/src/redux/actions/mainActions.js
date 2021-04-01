@@ -1,3 +1,8 @@
+export const setCurrentLang = (lang) => ({
+  type: "CURRENT_LANG",
+  payload: lang,
+});
+
 export const getMe = () => async (dispatch) => {
   fetch("/api/auth/me", {
     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },

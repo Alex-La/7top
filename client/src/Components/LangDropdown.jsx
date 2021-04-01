@@ -1,8 +1,8 @@
 import { useRef, useEffect, useState } from "react";
 import M from "materialize-css";
 import "../css/langDropdown.css";
-import { useDispatch } from "react-redux";
-import { changeLanguage } from "../redux/actions/mainActions";
+import { useDispatch, useSelector } from "react-redux";
+import { changeLanguage, setCurrentLang } from "../redux/actions/mainActions";
 
 import Us from "../img/united-states.png";
 import Ge from "../img/germany.png";
@@ -20,8 +20,14 @@ const arr = [
 
 const LangDropdown = () => {
   const dispatch = useDispatch();
+  const currentLang = useSelector(({ currentLang }) => currentLang);
   const dropdownRef = useRef(null);
-  const [country, setCountry] = useState({ name: "English", src: Us });
+  const [country, setCountry] = useState({ name: "english", src: Us });
+
+  useEffect(() => {
+    const current = arr.find((ell) => ell.name === currentLang);
+    setCountry(current);
+  }, [currentLang]);
 
   useEffect(() => {
     if (dropdownRef.current)
@@ -54,7 +60,10 @@ const LangDropdown = () => {
         {arr.map((c, i) => (
           <li
             key={i}
-            onClick={() => setCountry(arr[i])}
+            onClick={() => {
+              dispatch(setCurrentLang(c.name));
+              localStorage.setItem("lang", c.name);
+            }}
             style={{
               display: "flex",
               alignItems: "center",
