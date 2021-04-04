@@ -69,6 +69,11 @@ const languageState = {
         "My tickets",
         "List of winners",
       ],
+      winners: {
+        first: "First",
+        second: "Second",
+        winner: "winner",
+      },
     },
   },
 };

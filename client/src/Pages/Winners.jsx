@@ -59,6 +59,11 @@ const Winners = () => {
     loading,
     success,
   } = useSelector(({ allWinners }) => allWinners);
+  const language = useSelector(({ language }) => language);
+
+  useEffect(() => {
+    console.log(language);
+  }, [language]);
 
   useEffect(() => {
     dispatch(getAllWinners());
@@ -121,8 +126,10 @@ const Winners = () => {
                       alt="star"
                     />
                     <span style={{ whiteSpace: "nowrap" }}>
-                      {winner.event_name === "FirstWinner" ? "First" : "Second"}{" "}
-                      Place{" "}
+                      {winner.event_name === "FirstWinner"
+                        ? language.result.page.winners.first
+                        : language.result.page.winners.second}{" "}
+                      {language.result.page.winners.winner}{" "}
                       <span className="sum" style={{ whiteSpace: "nowrap" }}>
                         {winner.amount} $
                       </span>
