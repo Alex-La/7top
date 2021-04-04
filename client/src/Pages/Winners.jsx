@@ -120,9 +120,12 @@ const Winners = () => {
                       }
                       alt="star"
                     />
-                    <span>
+                    <span style={{ whiteSpace: "nowrap" }}>
                       {winner.event_name === "FirstWinner" ? "First" : "Second"}{" "}
-                      Place <span className="sum">{winner.amount} $</span>
+                      Place{" "}
+                      <span className="sum" style={{ whiteSpace: "nowrap" }}>
+                        {winner.amount} $
+                      </span>
                     </span>
                   </div>
                 </div>
