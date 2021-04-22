@@ -24,6 +24,11 @@ const StartPage = () => {
       instance: tronWeb.instance,
     })
   );
+
+  useEffect(() => {
+    console.log(language);
+  }, [language]);
+
   const languages = [
     { lang: "german", margin: 205 },
     { lang: "russian", margin: 185 },
@@ -63,15 +68,15 @@ const StartPage = () => {
 
           <div className="buttons">
             <NavLink className="entrance" to="/register">
-              Create new
+              {language.result.page.account[7]}
             </NavLink>
             {instance && instance.ready ? (
               <NavLink className="login" to="/login">
-                Login
+                {language.result.page.account[4]}
               </NavLink>
             ) : (
               <NavLink className="login" to="/allgames">
-                Look around
+                {language.result.page.account[8]}
               </NavLink>
             )}
           </div>
