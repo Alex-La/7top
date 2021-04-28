@@ -60,7 +60,8 @@ const LangDropdown = () => {
         {arr.map((c, i) => (
           <li
             key={i}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               dispatch(setCurrentLang(c.name));
               localStorage.setItem("lang", c.name);
             }}
