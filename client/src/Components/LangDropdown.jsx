@@ -64,6 +64,7 @@ const LangDropdown = () => {
               dispatch(setCurrentLang(c.name));
               localStorage.setItem("lang", c.name);
             }}
+            onMouseDown={(e) => e.preventDefault()}
             style={{
               display: "flex",
               alignItems: "center",
