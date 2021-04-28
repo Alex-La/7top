@@ -32,6 +32,8 @@
     "method-override": "^3.0.0",
     "mongoose": "^5.11.19",
     "nodemailer": "^6.5.0",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^2.0.3",
     "socket.io": "^4.0.0",
     "trongrid": "^1.2.6",
     "tronweb": "^3.2.6"

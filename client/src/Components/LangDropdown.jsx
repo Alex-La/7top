@@ -10,6 +10,9 @@ import Ru from "../img/russia.png";
 import Sp from "../img/spain.png";
 import Ch from "../img/china.png";
 
+import "semantic-ui-css/semantic.min.css";
+import { Dropdown } from "semantic-ui-react";
+
 const arr = [
   { name: "english", src: Us },
   { name: "german", src: Ge },
@@ -43,46 +46,22 @@ const LangDropdown = () => {
       className="input-field"
       style={{ position: "fixed", zIndex: 1, right: 10 }}
     >
-      <img
-        ref={dropdownRef}
-        src={country.src}
-        alt="us"
-        width={40}
-        height={40}
-        className="dropdown-trigger"
-        data-target="lang"
-      />
-      <ul
-        id="lang"
-        className="dropdown-content lang-dropdown"
-        style={{ backgroundColor: "transparent", overflowX: "hidden" }}
-      >
-        {arr.map((c, i) => (
-          <li
-            key={i}
-            onClick={(e) => {
-              e.preventDefault();
-              dispatch(setCurrentLang(c.name));
-              localStorage.setItem("lang", c.name);
-            }}
-            onMouseDown={(e) => e.preventDefault()}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              color: "white",
-            }}
-          >
-            <img
-              src={c.src}
-              alt={c.name}
-              width={40}
-              height={40}
-              style={{ marginRight: 5 }}
+      <img src={country.src} width={40} height={40} />
+
+      <Dropdown className="sem-drop" direction="left" icon={false}>
+        <Dropdown.Menu>
+          {arr.map((c, i) => (
+            <Dropdown.Item
+              key={i}
+              image={c.src}
+              onClick={() => {
+                dispatch(setCurrentLang(c.name));
+                localStorage.setItem("lang", c.name);
+              }}
             />
-            {c.name}
-          </li>
-        ))}
-      </ul>
+          ))}
+        </Dropdown.Menu>
+      </Dropdown>
     </div>
   );
 };
